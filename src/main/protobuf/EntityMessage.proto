@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package message;
+
+import "scalapb/scalapb.proto";
+//import "google/protobuf/wrappers.proto";
+
+option java_package = "id.co.babe.entityextractor.domain.message";
+
+option java_outer_classname = "EntityMessageProtos";
+
+option (scalapb.options) = {
+    package_name : "id.co.babe.entityextractor.domain.message"
+//    primitive_wrappers: true
+};
+
+message EntityMessageRequest {
+    string body = 1;
+}
+
+message EntityMessageResponse {
+    repeated Entity matches = 1;
+    repeated Entity unmatches = 2;
+
+    message Entity {
+        string name = 1;
+        uint32 occ_freq = 2;
+        int32 entity_type = 3;
+    }
+}
