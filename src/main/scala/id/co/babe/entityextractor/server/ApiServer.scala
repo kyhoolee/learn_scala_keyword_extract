@@ -6,10 +6,8 @@ import com.twitter.finatra.http.HttpServer
 import com.twitter.finatra.http.filters.{CommonFilters, ExceptionMappingFilter, LoggingMDCFilter, TraceIdMDCFilter}
 import com.twitter.finatra.http.routing.HttpRouter
 import id.co.babe.entityextractor.controller.EntityController
-import id.co.babe.entityextractor.domain.http.SProtoRequestWrapper
-import id.co.babe.entityextractor.domain.message.EntityMessage.EntityMessageRequest
-import id.co.babe.entityextractor.domain.message.EntityMessage.EntityMessageResponse
-import id.co.babe.entityextractor.marshalling.{JProtobufMessageBodyWriter, SProtobufMessageBodyReader, SProtobufMessageBodyWriter}
+import id.co.babe.entityextractor.domain.message.EntityMessage.{EntityMessageRequest, EntityMessageResponse}
+import id.co.babe.entityextractor.marshalling.{SProtobufMessageBodyReader, SProtobufMessageBodyWriter}
 import id.co.babe.entityextractor.module.{ContextModule, TypesafeConfigModule}
 
 /**
@@ -27,10 +25,9 @@ class ApiServer extends HttpServer {
 
 	override protected def configureHttp(router: HttpRouter): Unit = {
 		router
-			.register[SProtobufMessageBodyReader[EntityMessageRequest], SProtoRequestWrapper[EntityMessageRequest]]
+			.register[SProtobufMessageBodyReader[EntityMessageRequest]]
 
 			.register[SProtobufMessageBodyWriter, EntityMessageResponse]
-//			.register[JProtobufMessageBodyWriter, EntityMessageResponse]
 
 		    .filter[LoggingMDCFilter[Request, Response]]
 			.filter[TraceIdMDCFilter[Request, Response]]

@@ -11,8 +11,9 @@ scalaVersion := "2.11.8"
 
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
+  "Twitter Maven" at "https://maven.twttr.com",
   Resolver.jcenterRepo,
-  "Twitter Maven" at "https://maven.twttr.com"//,
+  Resolver.mavenLocal
 )
 
 compileOrder := CompileOrder.JavaThenScala
@@ -50,7 +51,9 @@ lazy val versions = new {
   val typesafeConfig = "1.3.0"
   val ficus = "1.2.6" // for scala friendly typesafe config
 
-  val json4s = "0.1.2"
+  val json4s = "0.1.3-SNAPSHOT"
+
+  val accord = "0.6"
 }
 
 libraryDependencies ++= Seq(
@@ -90,7 +93,10 @@ libraryDependencies ++= Seq(
   "com.google.protobuf" % "protobuf-java-util" % versions.protobuf,
 
   "com.trueaccord.scalapb" %% "scalapb-json4s" % versions.json4s,
-  "com.trueaccord.scalapb" %% "scalapb-runtime" % versions.scalapb % "protobuf"
+  "com.trueaccord.scalapb" %% "scalapb-runtime" % versions.scalapb % "protobuf",
+
+  // validator
+  "com.wix" %% "accord-core" % versions.accord
 )
 
 Revolver.settings
