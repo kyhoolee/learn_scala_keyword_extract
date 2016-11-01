@@ -10,8 +10,5 @@ import id.co.babe.entityextractor.repository.ArticleRepository
   */
 class ArticleService @Inject() (articleRepository: ArticleRepository) {
 
-	def findById(id: Long): Option[Article] = {
-		/*val article =*/ Await.result{ articleRepository.findById(id) }
-		/*article*/
-	}
+	def findById(id: Long) = articleRepository.findById(id)
 }

@@ -9,4 +9,4 @@ import com.twitter.finagle.http.Request
   */
 case class JProtoRequestWrapper[T <: Message](wrapper: T, request: Request)
 
-case class SProtoRequestWrapper[T <: GeneratedMessage](wrapper: T, request: Request)
+//case class SProtoRequestWrapper[T <: GeneratedMessage](wrapper: T, request: Request)
