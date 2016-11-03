@@ -13,6 +13,7 @@ resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
   "Twitter Maven" at "https://maven.twttr.com",
   Resolver.jcenterRepo,
+  "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/releases/",
   Resolver.mavenLocal
 )
 
@@ -54,6 +55,7 @@ lazy val versions = new {
   val json4s = "0.1.3-SNAPSHOT"
 
   val accord = "0.6"
+  val swagger = "0.6.0"
 }
 
 libraryDependencies ++= Seq(
@@ -96,7 +98,9 @@ libraryDependencies ++= Seq(
   "com.trueaccord.scalapb" %% "scalapb-runtime" % versions.scalapb % "protobuf",
 
   // validator
-  "com.wix" %% "accord-core" % versions.accord
+  "com.wix" %% "accord-core" % versions.accord,
+  "com.github.xiaodongw" %% "swagger-finatra" % versions.swagger
+
 )
 
 Revolver.settings

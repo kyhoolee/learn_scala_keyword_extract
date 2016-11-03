@@ -1,5 +1,6 @@
 package id.co.babe.entityextractor.controller
 
+import com.github.xiaodongw.swagger.finatra.SwaggerSupport
 import com.google.inject.Inject
 import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
@@ -8,14 +9,23 @@ import com.wix.accord.Descriptions.Explicit
 import com.wix.accord._
 import com.wix.accord.dsl._
 import id.co.babe.entityextractor.domain.message.EntityMessage.EntityMessageRequest
+import id.co.babe.entityextractor.domain.swagger.EntityExtractorRequest
 import id.co.babe.entityextractor.service.EntityExtractorService
+import io.swagger.models.Swagger
 
 /**
   * Created by aditya on 30/09/16.
   */
-class EntityController @Inject() (extractorService: EntityExtractorService) extends Controller {
+object EntitySwagger extends Swagger
+class EntityController @Inject() (extractorService: EntityExtractorService) extends Controller with SwaggerSupport{
+	override protected implicit val swagger: Swagger = EntitySwagger
 
-	post("/v1/entity/extract") { request: EntityMessageRequest =>
+	postWithDoc("/v1/entity/extract"){doc =>
+		doc.summary("Extract Entity by Body")
+		    .tag("Entity Extractor")
+		    .bodyParam[EntityExtractorRequest]("body", "article content", Option(new EntityExtractorRequest(body = "Article Content")))
+			.produces("application/json")
+	}{ request: EntityMessageRequest =>
 		validate(request) match {
 			case Success => {
 				extractorService.extractEntitiesById(request.body)
@@ -30,7 +40,12 @@ class EntityController @Inject() (extractorService: EntityExtractorService) exte
 		}
 	}
 
-	post("/v1/entity/extract/:aid") { request: Request =>
+	postWithDoc("/v1/entity/extract/:aid") {doc =>
+		doc.summary("Extract Entity by Article ID")
+			.tag("Entity Extractor")
+			.routeParam[Long]("aid", "article id")
+			.produces("application/json")
+	}{ request: Request =>
 		guardAid(request)(aid => extractorService.extractEntitiesById(aid))
 	}
 

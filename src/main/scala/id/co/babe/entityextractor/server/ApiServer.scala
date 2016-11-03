@@ -1,14 +1,16 @@
 package id.co.babe.entityextractor.server
 
+import com.github.xiaodongw.swagger.finatra.{SwaggerController, WebjarsController}
 import com.google.inject.Module
 import com.twitter.finagle.http.{Request, Response}
 import com.twitter.finatra.http.HttpServer
 import com.twitter.finatra.http.filters.{CommonFilters, ExceptionMappingFilter, LoggingMDCFilter, TraceIdMDCFilter}
 import com.twitter.finatra.http.routing.HttpRouter
-import id.co.babe.entityextractor.controller.EntityController
+import id.co.babe.entityextractor.controller.{EntityController, EntitySwagger}
 import id.co.babe.entityextractor.domain.message.EntityMessage.{EntityMessageRequest, EntityMessageResponse}
 import id.co.babe.entityextractor.marshalling.{SProtobufMessageBodyReader, SProtobufMessageBodyWriter}
 import id.co.babe.entityextractor.module.{ContextModule, TypesafeConfigModule}
+import io.swagger.models.Info
 
 /**
   * Created by aditya on 30/09/16.
@@ -35,5 +37,14 @@ class ApiServer extends HttpServer {
 			.filter[ExceptionMappingFilter[Request]]
 
 		    .add[EntityController]
+			.add[WebjarsController]
+			.add(new SwaggerController(swagger = EntitySwagger))
 	}
+
+	val info = new Info()
+		.description("Entity Extractor API")
+		.version("0.1")
+		.title("Entity Extractor API")
+
+	EntitySwagger.info(info)
 }
