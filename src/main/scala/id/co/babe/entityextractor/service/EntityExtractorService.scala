@@ -9,6 +9,7 @@ import id.co.babe.entityextractor.domain.message.EntityMessage.EntityMessageResp
 import id.co.babe.entityextractor.domain.message.EntityMessage.EntityMessageResponse.Entity
 import id.co.babe.entityextractor.model.TaggedEntity
 import id.co.babe.entityextractor.repository._
+import sun.misc.BASE64Decoder
 
 import scala.collection.mutable
 
@@ -306,9 +307,11 @@ class EntityExtractorService @Inject() (articleRepository: ArticleRepository,
 
 	def extractEntitiesById(articleId: Long): Future[Any] = {
 		articleRepository.findById(articleId) flatMap { art =>
-			if (art.isDefined)
-				extractEntitiesById(art.get.body)
-			else
+			if (art.isDefined) {
+				val arr = new BASE64Decoder().decodeBuffer(art.get.body)
+				val decoded: String = new String(arr, "UTF-8")
+				extractEntitiesById(decoded)
+			}else
 				throw NotFoundException(s"Article ID #${articleId} not found!")
 		}
 	}
@@ -320,10 +323,12 @@ class EntityExtractorService @Inject() (articleRepository: ArticleRepository,
 
 			//Merge synonym
 			entityCandidates <- mergeSynonym(entityCandidates)
+
 			// Step #3 get matches with dbpedia entities -> matchEntities
-			matchEntities <- getMatchesWithDbpedia(entityCandidates.keySet.toList)
 			// Step #4 get matches with tagged entities
-			matchTaggedEntities <- getMatchesWithTaggedEntity(entityCandidates.keySet.toSeq)
+			(matchEntities, matchTaggedEntities) <- Future.join(
+				getMatchesWithDbpedia(entityCandidates.keySet.toList),
+				getMatchesWithTaggedEntity(entityCandidates.keySet.toSeq))
 
 			entityCandidates <- updateEntityType(matchEntities, entityCandidates)
 
