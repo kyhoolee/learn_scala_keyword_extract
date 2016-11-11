@@ -5,7 +5,7 @@ name := "entity-extractor-service"
 
 organization := "id.co.babe"
 
-version := "0.1"
+version := "0.2"
 
 scalaVersion := "2.11.8"
 
@@ -25,9 +25,11 @@ PB.targets in Compile := Seq(
 
 // assembly for packaging as single jar
 assemblyMergeStrategy in assembly := {
-  case "BUILD" => MergeStrategy.discard
-  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case "BUILD" => MergeStrategy.last
+  case PathList("META-INF", "io.netty.versions.properties", xs @ _*) => MergeStrategy.last
   case PathList("com", "google", xs @ _*) => MergeStrategy.last
+  case PathList("org", "apache", xs @ _*) => MergeStrategy.last
+  case PathList("org", "slf4j", xs @ _*) => MergeStrategy.last
   case other => MergeStrategy.defaultMergeStrategy(other)
 }
 
@@ -35,7 +37,7 @@ assemblyJarName in assembly := s"${name.value}-${version.value}.jar"
 
 
 lazy val versions = new {
-  val finatra = "2.4.0"
+  val finatra = "2.5.0"
   val guice = "4.0"
   val logback = "1.1.+"
   val protobuf = "3.0.0"
@@ -99,9 +101,11 @@ libraryDependencies ++= Seq(
 
   // validator
   "com.wix" %% "accord-core" % versions.accord,
-  "com.github.xiaodongw" %% "swagger-finatra" % versions.swagger
+  "com.github.xiaodongw" %% "swagger-finatra" % versions.swagger,
 
-)
+  "com.twitter" %% "finagle-serversets" % "6.39.0"
+
+).map(_.exclude("org.slf4j", "slf4j-log4j12")).map(_.exclude("org.slf4j", "slf4j-jdk14"))
 
 Revolver.settings
 

@@ -19,7 +19,7 @@ object ApiServerMain extends ApiServer
 
 class ApiServer extends HttpServer {
 
-	override protected def defaultFinatraHttpPort: String = ":8080"
+	override protected def defaultFinatraHttpPort: String = ":9000"
 
 	override protected def failfastOnFlagsNotParsed: Boolean = true
 

@@ -323,10 +323,12 @@ class EntityExtractorService @Inject() (articleRepository: ArticleRepository,
 
 			//Merge synonym
 			entityCandidates <- mergeSynonym(entityCandidates)
+
 			// Step #3 get matches with dbpedia entities -> matchEntities
-			matchEntities <- getMatchesWithDbpedia(entityCandidates.keySet.toList)
 			// Step #4 get matches with tagged entities
-			matchTaggedEntities <- getMatchesWithTaggedEntity(entityCandidates.keySet.toSeq)
+			(matchEntities, matchTaggedEntities) <- Future.join(
+				getMatchesWithDbpedia(entityCandidates.keySet.toList),
+				getMatchesWithTaggedEntity(entityCandidates.keySet.toSeq))
 
 			entityCandidates <- updateEntityType(matchEntities, entityCandidates)
 
