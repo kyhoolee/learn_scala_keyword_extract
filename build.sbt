@@ -58,6 +58,9 @@ lazy val versions = new {
 
   val accord = "0.6"
   val swagger = "0.6.0"
+
+  val finagle_metrics     = "0.0.8"
+  val metrics             = "3.1.2"
 }
 
 libraryDependencies ++= Seq(
@@ -103,7 +106,10 @@ libraryDependencies ++= Seq(
   "com.wix" %% "accord-core" % versions.accord,
   "com.github.xiaodongw" %% "swagger-finatra" % versions.swagger,
 
-  "com.twitter" %% "finagle-serversets" % "6.39.0"
+  "com.twitter" %% "finagle-serversets" % "6.39.0",
+
+  "com.github.rlazoti" %% "finagle-metrics" % versions.finagle_metrics,
+  "io.dropwizard.metrics" % "metrics-graphite" % versions.metrics
 
 ).map(_.exclude("org.slf4j", "slf4j-log4j12")).map(_.exclude("org.slf4j", "slf4j-jdk14"))
 

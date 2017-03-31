@@ -9,7 +9,7 @@ import com.twitter.finatra.http.routing.HttpRouter
 import id.co.babe.entityextractor.controller.{EntityController, EntitySwagger}
 import id.co.babe.entityextractor.domain.message.EntityMessage.{EntityMessageRequest, EntityMessageResponse}
 import id.co.babe.entityextractor.marshalling.{SProtobufMessageBodyReader, SProtobufMessageBodyWriter}
-import id.co.babe.entityextractor.module.{ContextModule, TypesafeConfigModule}
+import id.co.babe.entityextractor.module.{ContextModule, GraphiteMetricsModule, TypesafeConfigModule}
 import io.swagger.models.Info
 
 /**
@@ -23,7 +23,11 @@ class ApiServer extends HttpServer {
 
 	override protected def failfastOnFlagsNotParsed: Boolean = true
 
-	override protected def modules: Seq[Module] = Seq(TypesafeConfigModule, ContextModule)
+	override protected def modules: Seq[Module] = Seq(
+		TypesafeConfigModule,
+		ContextModule,
+		GraphiteMetricsModule
+	)
 
 	override protected def configureHttp(router: HttpRouter): Unit = {
 		router
