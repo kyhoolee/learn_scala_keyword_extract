@@ -32,6 +32,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.11.8:jar" level="project" />
+    <orderEntry type="library" name="SBT: io.dropwizard.metrics:metrics-graphite:3.1.2:jar" level="project" />
+    <orderEntry type="library" name="SBT: io.dropwizard.metrics:metrics-core:3.1.2:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.github.rlazoti:finagle-metrics_2.11:0.0.8:jar" level="project" />
     <orderEntry type="library" name="SBT: org.scalatest:scalatest_2.11:2.2.6:jar" level="project" />
     <orderEntry type="library" name="SBT: com.wix:accord-core_2.11:0.6:jar" level="project" />
     <orderEntry type="library" name="SBT: com.wix:accord-api_2.11:0.6:jar" level="project" />
@@ -40,7 +43,6 @@
     <orderEntry type="library" name="SBT: org.typelevel:macro-compat_2.11:1.1.1:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="SBT: org.specs2:specs2_2.11:2.3.12:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="SBT: org.specs2:classycle:1.4.3:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.slf4j:slf4j-api:1.7.21:jar" level="project" />
     <orderEntry type="library" name="SBT: org.slf4j:log4j-over-slf4j:1.7.21:jar" level="project" />
     <orderEntry type="library" name="SBT: org.slf4j:jul-to-slf4j:1.7.21:jar" level="project" />
     <orderEntry type="library" name="SBT: org.slf4j:jcl-over-slf4j:1.7.21:jar" level="project" />
@@ -94,22 +96,6 @@
     <orderEntry type="library" name="SBT: com.typesafe.scala-logging:scala-logging_2.11:3.4.0:jar" level="project" />
     <orderEntry type="library" name="SBT: com.typesafe:config:1.3.0:jar" level="project" />
     <orderEntry type="library" name="SBT: com.twitter.finatra:finatra-scalap-compiler-deps_2.11:2.0.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter.common:util-system-mocks:0.0.103:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter.common:util-sampler:0.0.77:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter.common:util-executor-service-shutdown:0.0.66:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter.common:util:0.0.120:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter.common:stats-util:0.0.58:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter.common:stats-provider:0.0.92:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter.common:stats:0.0.114:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter.common:stat-registry:0.0.57:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter.common:stat:0.0.72:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter.common:quantity:0.0.98:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter.common:metrics:0.0.37:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter.common:jdk-logging:0.0.79:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter.common:collections:0.0.109:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter.common:base:0.0.114:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter.common:application-action:0.0.89:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:jsr166e:1.0.0:jar" level="project" />
     <orderEntry type="library" name="SBT: com.twitter:finagle-mysql_2.11:6.37.0:jar" level="project" />
     <orderEntry type="library" name="SBT: com.pauldijou:jwt-core_2.11:0.8.1:jar" level="project" />
     <orderEntry type="library" name="SBT: com.pauldijou:jwt-core-impl_2.11:0.8.1:jar" level="project" />
@@ -121,7 +107,6 @@
     <orderEntry type="library" name="SBT: com.google.inject.extensions:guice-assistedinject:4.0:jar" level="project" />
     <orderEntry type="library" name="SBT: com.google.inject:guice:4.0:jar" level="project" />
     <orderEntry type="library" name="SBT: com.google.guava:guava:18.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.google.code.gson:gson:2.3:jar" level="project" />
     <orderEntry type="library" name="SBT: com.google.code.findbugs:jsr305:2.0.1:jar" level="project" />
     <orderEntry type="library" name="SBT: com.github.spullara.mustache.java:compiler:0.8.18:jar" level="project" />
     <orderEntry type="library" name="SBT: com.github.nscala-time:nscala-time_2.11:1.6.0:jar" level="project" />
@@ -130,8 +115,6 @@
     <orderEntry type="library" name="SBT: com.fasterxml.jackson.module:jackson-module-paranamer:2.6.5:jar" level="project" />
     <orderEntry type="library" name="SBT: com.fasterxml.jackson.datatype:jackson-datatype-joda:2.6.5:jar" level="project" />
     <orderEntry type="library" name="SBT: com.fasterxml.jackson.core:jackson-annotations:2.6.5:jar" level="project" />
-    <orderEntry type="library" name="SBT: ch.qos.logback:logback-core:1.1.4:jar" level="project" />
-    <orderEntry type="library" name="SBT: ch.qos.logback:logback-classic:1.1.4:jar" level="project" />
     <orderEntry type="library" name="SBT: aopalliance:aopalliance:1.0:jar" level="project" />
     <orderEntry type="library" name="SBT: com.fasterxml.jackson.core:jackson-core:2.6.7:jar" level="project" />
     <orderEntry type="library" name="SBT: com.fasterxml.jackson.core:jackson-databind:2.6.7:jar" level="project" />
@@ -141,49 +124,99 @@
     <orderEntry type="library" name="SBT: com.thoughtworks.paranamer:paranamer:2.8:jar" level="project" />
     <orderEntry type="library" name="SBT: com.trueaccord.lenses:lenses_2.11:0.4.6:jar" level="project" />
     <orderEntry type="library" name="SBT: com.trueaccord.scalapb:scalapb-runtime_2.11:0.5.42:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:finagle-core_2.11:6.38.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:finagle-http_2.11:6.38.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:finagle-mux_2.11:6.38.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:finagle-netty4-http_2.11:6.38.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:finagle-netty4_2.11:6.38.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:finagle-stats_2.11:6.38.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:finagle-thrift_2.11:6.38.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:finagle-toggle_2.11:6.38.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:finagle-zipkin-core_2.11:6.38.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:finatra-http_2.11:2.4.0:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="SBT: com.twitter:finatra-http_2.11:2.4.0:tests:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:finatra-jackson_2.11:2.4.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:finatra-slf4j_2.11:2.4.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:finatra-utils_2.11:2.4.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:inject-app_2.11:2.4.0:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="SBT: com.twitter:inject-app_2.11:2.4.0:tests:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:inject-core_2.11:2.4.0:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="SBT: com.twitter:inject-core_2.11:2.4.0:tests:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:inject-modules_2.11:2.4.0:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="SBT: com.twitter:inject-modules_2.11:2.4.0:tests:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:inject-request-scope_2.11:2.4.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:inject-server_2.11:2.4.0:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="SBT: com.twitter:inject-server_2.11:2.4.0:tests:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:inject-utils_2.11:2.4.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:scrooge-core_2.11:4.10.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:twitter-server_2.11:1.23.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:util-app_2.11:6.37.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:util-cache_2.11:6.37.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:util-codec_2.11:6.37.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:util-collection_2.11:6.37.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:util-core_2.11:6.37.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:util-events_2.11:6.37.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:util-function_2.11:6.37.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:util-hashing_2.11:6.37.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:util-jvm_2.11:6.37.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:util-lint_2.11:6.37.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:util-logging_2.11:6.37.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:util-registry_2.11:6.37.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.twitter:util-stats_2.11:6.37.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.json4s:json4s-ast_2.11:3.4.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.json4s:json4s-core_2.11:3.4.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.json4s:json4s-jackson_2.11:3.4.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.json4s:json4s-scalap_2.11:3.4.0:jar" level="project" />
     <orderEntry type="library" name="SBT: com.trueaccord.scalapb:scalapb-json4s_2.11:0.1.3-SNAPSHOT:jar" level="project" />
+    <orderEntry type="library" name="SBT: ch.qos.logback:logback-classic:1.1.11:jar" level="project" />
+    <orderEntry type="library" name="SBT: ch.qos.logback:logback-core:1.1.11:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.4.5:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.github.xiaodongw:swagger-finatra_2.11:0.6.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.google.code.gson:gson:2.3.1:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:finagle-core_2.11:6.39.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:finagle-exp_2.11:6.39.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:finagle-http_2.11:6.39.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:finagle-mux_2.11:6.39.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:finagle-netty4-http_2.11:6.39.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:finagle-netty4_2.11:6.39.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:finagle-serversets_2.11:6.39.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:finagle-stats_2.11:6.39.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:finagle-thrift_2.11:6.39.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:finagle-toggle_2.11:6.39.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:finagle-zipkin-core_2.11:6.39.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:finatra-http_2.11:2.5.0:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="SBT: com.twitter:finatra-http_2.11:2.5.0:tests:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:finatra-jackson_2.11:2.5.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:finatra-slf4j_2.11:2.5.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:finatra-utils_2.11:2.5.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:inject-app_2.11:2.5.0:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="SBT: com.twitter:inject-app_2.11:2.5.0:tests:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:inject-core_2.11:2.5.0:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="SBT: com.twitter:inject-core_2.11:2.5.0:tests:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:inject-modules_2.11:2.5.0:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="SBT: com.twitter:inject-modules_2.11:2.5.0:tests:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:inject-request-scope_2.11:2.5.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:inject-server_2.11:2.5.0:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="SBT: com.twitter:inject-server_2.11:2.5.0:tests:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:inject-slf4j_2.11:2.5.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:inject-utils_2.11:2.5.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:scrooge-core_2.11:4.11.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:twitter-server_2.11:1.24.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:util-app_2.11:6.38.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:util-cache_2.11:6.38.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:util-codec_2.11:6.38.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:util-collection_2.11:6.38.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:util-core_2.11:6.38.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:util-events_2.11:6.38.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:util-function_2.11:6.38.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:util-hashing_2.11:6.38.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:util-jvm_2.11:6.38.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:util-lint_2.11:6.38.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:util-logging_2.11:6.38.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:util-registry_2.11:6.38.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:util-stats_2.11:6.38.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:util-zk-common_2.11:6.38.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter:util-zk_2.11:6.38.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:application-action:0.0.90:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:args:0.2.41:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:args-core:0.1.37:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:base:0.0.115:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:collections:0.0.110:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:dynamic-host-set:0.0.56:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:io:0.0.68:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:io-json:0.0.54:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:io-thrift:0.0.67:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:jdk-logging:0.0.82:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:metrics:0.0.38:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:net-util:0.0.102:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:quantity:0.0.99:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:service-thrift:1.0.54:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:stat:0.0.74:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:stats:0.0.115:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:stats-provider:0.0.93:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:stats-registry:0.0.1:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:stats-util:0.0.59:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:util:0.0.121:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:util-executor-service-shutdown:0.0.67:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:util-sampler:0.0.78:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common:util-system-mocks:0.0.104:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common.zookeeper:client:0.0.80:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common.zookeeper:group:0.0.91:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.twitter.common.zookeeper:server-set:1.0.111:jar" level="project" />
+    <orderEntry type="library" name="SBT: commons-cli:commons-cli:1.2:jar" level="project" />
+    <orderEntry type="library" name="SBT: commons-codec:commons-codec:1.9:jar" level="project" />
+    <orderEntry type="library" name="SBT: io.swagger:swagger-annotations:1.5.9:jar" level="project" />
+    <orderEntry type="library" name="SBT: io.swagger:swagger-core:1.5.9:jar" level="project" />
+    <orderEntry type="library" name="SBT: io.swagger:swagger-models:1.5.9:jar" level="project" />
+    <orderEntry type="library" name="SBT: io.swagger:swagger-scala-module_2.11:1.0.2:jar" level="project" />
+    <orderEntry type="library" name="SBT: javax.validation:validation-api:1.1.0.Final:jar" level="project" />
+    <orderEntry type="library" name="SBT: log4j:log4j:1.2.16:jar" level="project" />
+    <orderEntry type="library" name="SBT: net.java.dev.javacc:javacc:5.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.apache.commons:commons-lang3:3.2.1:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.apache.zookeeper:zookeeper:3.5.0-alpha:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.slf4j:slf4j-api:1.7.22:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.webjars:swagger-ui:2.1.4:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.yaml:snakeyaml:1.12:jar" level="project" />
   </component>
 </module>
