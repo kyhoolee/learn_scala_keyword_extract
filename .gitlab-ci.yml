@@ -1,6 +1,6 @@
 run_deploy:
   script:
-    - sbt clean assembly
+    - sbt clean protocGenerate assembly
     - scp -P 2728 /home/webdev/"${CI_PROJECT_DIR}"/target/scala-*/*.jar webdev@10.2.15.89:/home/webdev/project/BABE-Entity-Extractor-Microservice/libs
     - scp -P 2728 /home/webdev/"${CI_PROJECT_DIR}"/target/scala-*/*.jar webdev@10.2.15.90:/home/webdev/project/BABE-EntityExtractor-Microservice/libs
     - ssh -t -p 2728 webdev@10.2.15.89 "sh /home/webdev/deploy.sh /home/webdev/project/BABE-Entity-Extractor-Microservice microservice.jar"
