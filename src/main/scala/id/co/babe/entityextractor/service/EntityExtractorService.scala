@@ -4,14 +4,18 @@ import com.google.inject.Inject
 import com.twitter.finatra.http.exceptions.NotFoundException
 import com.twitter.inject.Logging
 import com.twitter.util.{Await, Future}
+import id.co.babe.analysis.CneAPI
 import id.co.babe.entityextractor.dao.Synonym
-import id.co.babe.entityextractor.domain.message.EntityMessage.EntityMessageResponse
+import id.co.babe.entityextractor.domain.message.EntityMessage.{EntityMessageResponse, EntityMessageResponseV2}
 import id.co.babe.entityextractor.domain.message.EntityMessage.EntityMessageResponse.Entity
-import id.co.babe.entityextractor.model.TaggedEntity
+import id.co.babe.entityextractor.domain.message.EntityMessage.EntityMessageResponseV2.EntityV2
+import id.co.babe.entityextractor.model.{TaggedEntity, TaggedEntityV2}
 import id.co.babe.entityextractor.repository._
 import sun.misc.BASE64Decoder
 
 import scala.collection.mutable
+
+import scala.collection.JavaConverters._
 
 /**
   * Created by aditya on 04/10/16.
@@ -27,6 +31,8 @@ class EntityExtractorService @Inject() (articleRepository: ArticleRepository,
 	private val bodyPattern = "[A-Z]+[a-zA-Z0-9]*( [A-Z]+[a-zA-Z0-9]*)*".r
 	private val titlePattern = "\\b([a-z]+[a-z0-9]*)\\b".r
 	private val redundantPattern = "( )+".r
+
+	private val matchThres = 0.0;
 
 	private val stopwordPattern = Await.result{ stopwordRepository.findAllActive().map(_.map(s => s.keyword.toLowerCase)) }
 		    .distinct.mkString("(?i)\\b+(", "|", ")\\b+").r
@@ -302,7 +308,9 @@ class EntityExtractorService @Inject() (articleRepository: ArticleRepository,
 				unmatches += Entity(entityCandidate._2.name, entityCandidate._2.occFreq, Option(0))
 		}
 
-		EntityMessageResponse().update(_.matches := matches.sortWith(_.occFreq>_.occFreq), _.unmatches := unmatches.sortWith(_.occFreq>_.occFreq))
+		EntityMessageResponse().update(
+			_.matches := matches.sortWith(_.occFreq>_.occFreq),
+			_.unmatches := unmatches.sortWith(_.occFreq>_.occFreq))
 	}
 
 	def extractEntitiesById(articleId: Long): Future[Any] = {
@@ -338,5 +346,6 @@ class EntityExtractorService @Inject() (articleRepository: ArticleRepository,
 
 			response <- divideMatchUnmatch(entityCandidates)
 	} yield response
+
 }
 

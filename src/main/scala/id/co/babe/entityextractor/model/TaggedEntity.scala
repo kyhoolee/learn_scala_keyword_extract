@@ -3,7 +3,9 @@ package id.co.babe.entityextractor.model
 /**
   * Created by aditya on 05/10/16.
   */
-case class TaggedEntity(name: String, var aliases: Set[String], var aliasCombination: Set[String], var occFreq: Int, var entityType: Byte) {
+case class TaggedEntity(name: String, var aliases: Set[String],
+												var aliasCombination: Set[String], var occFreq: Int,
+												var entityType: Byte) {
 
 	def this(name: String) {
 		this(name, Set.empty[String], Set.empty[String], 0, 0)

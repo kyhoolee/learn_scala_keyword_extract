@@ -2,12 +2,9 @@ import sbt.Keys._
 import sbtprotobuf.{ProtobufPlugin=>JPB}
 
 name := "entity-extractor-service"
-
 organization := "id.co.babe"
-
 version := "0.2"
-
-scalaVersion := "2.11.8"
+scalaVersion := "2.11.6"
 
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
@@ -34,7 +31,6 @@ assemblyMergeStrategy in assembly := {
 }
 
 assemblyJarName in assembly := s"${name.value}-${version.value}.jar"
-
 
 lazy val versions = new {
   val finatra = "2.5.0"
@@ -109,8 +105,9 @@ libraryDependencies ++= Seq(
   "com.twitter" %% "finagle-serversets" % "6.39.0",
 
   "com.github.rlazoti" %% "finagle-metrics" % versions.finagle_metrics,
-  "io.dropwizard.metrics" % "metrics-graphite" % versions.metrics
+  "io.dropwizard.metrics" % "metrics-graphite" % versions.metrics,
 
+  "co.id.babe.analysis" % "article_filter" % "0.0.1-SNAPSHOT"
 ).map(_.exclude("org.slf4j", "slf4j-log4j12")).map(_.exclude("org.slf4j", "slf4j-jdk14"))
 
 Revolver.settings

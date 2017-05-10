@@ -6,10 +6,10 @@ import com.twitter.finagle.http.{Request, Response}
 import com.twitter.finatra.http.HttpServer
 import com.twitter.finatra.http.filters.{CommonFilters, ExceptionMappingFilter, LoggingMDCFilter, TraceIdMDCFilter}
 import com.twitter.finatra.http.routing.HttpRouter
-import id.co.babe.entityextractor.controller.{EntityController, EntitySwagger}
-import id.co.babe.entityextractor.domain.message.EntityMessage.{EntityMessageRequest, EntityMessageResponse}
+import id.co.babe.entityextractor.controller.{EntityController, EntityControllerV2, EntitySwagger}
+import id.co.babe.entityextractor.domain.message.EntityMessage.{EntityMessageRequest, EntityMessageResponse, EntityMessageResponseV2}
 import id.co.babe.entityextractor.marshalling.{SProtobufMessageBodyReader, SProtobufMessageBodyWriter}
-import id.co.babe.entityextractor.module.{ContextModule, GraphiteMetricsModule, TypesafeConfigModule}
+import id.co.babe.entityextractor.module.{ContextModule, EntityExtractorV2Module, GraphiteMetricsModule, TypesafeConfigModule}
 import io.swagger.models.Info
 
 /**
@@ -26,28 +26,29 @@ class ApiServer extends HttpServer {
 	override protected def modules: Seq[Module] = Seq(
 		TypesafeConfigModule,
 		ContextModule,
-		GraphiteMetricsModule
+		GraphiteMetricsModule,
+		EntityExtractorV2Module
 	)
 
 	override protected def configureHttp(router: HttpRouter): Unit = {
 		router
 			.register[SProtobufMessageBodyReader[EntityMessageRequest]]
 
-			.register[SProtobufMessageBodyWriter, EntityMessageResponse]
+			.register[SProtobufMessageBodyWriter, EntityMessageResponseV2]
 
 		    .filter[LoggingMDCFilter[Request, Response]]
 			.filter[TraceIdMDCFilter[Request, Response]]
 			.filter[CommonFilters]
 			.filter[ExceptionMappingFilter[Request]]
 
-		    .add[EntityController]
+		    .add[EntityControllerV2]
 			.add[WebjarsController]
 			.add(new SwaggerController(swagger = EntitySwagger))
 	}
 
 	val info = new Info()
 		.description("Entity Extractor API")
-		.version("0.1")
+		.version("2.1")
 		.title("Entity Extractor API")
 
 	EntitySwagger.info(info)

@@ -16,7 +16,7 @@ import io.swagger.models.Swagger
 /**
   * Created by aditya on 30/09/16.
   */
-object EntitySwagger extends Swagger
+//object EntitySwagger extends Swagger
 class EntityController @Inject() (extractorService: EntityExtractorService) extends Controller with SwaggerSupport{
 	override protected implicit val swagger: Swagger = EntitySwagger
 

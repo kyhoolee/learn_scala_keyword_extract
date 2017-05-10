@@ -28,4 +28,16 @@ message EntityMessageResponse {
         uint32 occFreq = 2;
         google.protobuf.Int32Value entityType = 3;
     }
+
+}
+
+message EntityMessageResponseV2 {
+    repeated EntityV2 matches = 1;
+    repeated EntityV2 unmatches = 2;
+
+    message EntityV2 {
+        string name = 1;
+        double occFreq = 2;
+        google.protobuf.Int32Value entityType = 3;
+    }
 }
