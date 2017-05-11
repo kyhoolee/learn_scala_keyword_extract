@@ -41,7 +41,8 @@ class ApiServer extends HttpServer {
 			.filter[CommonFilters]
 			.filter[ExceptionMappingFilter[Request]]
 
-		    .add[EntityControllerV2]
+			.add[EntityControllerV2]
+			.add[EntityController]
 			.add[WebjarsController]
 			.add(new SwaggerController(swagger = EntitySwagger))
 	}
