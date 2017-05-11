@@ -28,7 +28,6 @@ message EntityMessageResponse {
         uint32 occFreq = 2;
         google.protobuf.Int32Value entityType = 3;
     }
-
 }
 
 message EntityMessageResponseV2 {
