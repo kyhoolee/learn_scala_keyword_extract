@@ -3,7 +3,7 @@ import sbtprotobuf.{ProtobufPlugin=>JPB}
 
 name := "entity-extractor-service"
 organization := "id.co.babe"
-version := "0.2"
+version := "1.0"
 scalaVersion := "2.11.6"
 
 resolvers ++= Seq(
