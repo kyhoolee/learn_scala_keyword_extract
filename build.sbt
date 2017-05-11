@@ -32,6 +32,8 @@ assemblyMergeStrategy in assembly := {
 
 assemblyJarName in assembly := s"${name.value}-${version.value}.jar"
 
+test in assembly := {}
+
 lazy val versions = new {
   val finatra = "2.5.0"
   val guice = "4.0"
