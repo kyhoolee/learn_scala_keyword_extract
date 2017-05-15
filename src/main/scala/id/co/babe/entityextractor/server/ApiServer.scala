@@ -35,6 +35,7 @@ class ApiServer extends HttpServer {
 			.register[SProtobufMessageBodyReader[EntityMessageRequest]]
 
 			.register[SProtobufMessageBodyWriter, EntityMessageResponseV2]
+			.register[SProtobufMessageBodyWriter, EntityMessageResponse]
 
 		    .filter[LoggingMDCFilter[Request, Response]]
 			.filter[TraceIdMDCFilter[Request, Response]]
@@ -42,6 +43,8 @@ class ApiServer extends HttpServer {
 			.filter[ExceptionMappingFilter[Request]]
 
 		    .add[EntityControllerV2]
+			.add[EntityController]
+
 			.add[WebjarsController]
 			.add(new SwaggerController(swagger = EntitySwagger))
 	}
