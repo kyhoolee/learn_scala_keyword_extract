@@ -121,3 +121,15 @@ JPB.protobufSettings
 
 // Uncomment this if you want your generated code to be included in main source
 //javaSource in JPB.protobufConfig := (javaSource in Compile)(_ / "/java")
+
+assemblyMergeStrategy in assembly := {
+  case PathList("javax", "servlet", xs @_*) => MergeStrategy.last
+  case x =>
+    val oldStrategy = (assemblyMergeStrategy in assembly).value
+    oldStrategy(x)
+}
+assemblyShadeRules in assembly := Seq(
+  ShadeRule.rename("org.joda.time.**" -> "org.elasticsearch.shaded.@1")
+    .inLibrary("org.elasticsearch" % "elasticsearch" % "2.4.4").inProject
+)
+
