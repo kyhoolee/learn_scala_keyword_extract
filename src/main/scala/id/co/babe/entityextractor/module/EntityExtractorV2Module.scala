@@ -14,11 +14,14 @@ object EntityExtractorV2Module extends TwitterModule  with Logging {
     val idWord = config.getString("extractor.idword")
     val stopWord = config.getString("extractor.stopword")
     val tagWord = config.getString("extractor.tagword")
+    val tagWord2 = config.getString("extractor.tagword2")
     val redirectWord = config.getString("extractor.redirectword")
     val sentParser = config.getString("extractor.sentparser")
     val tokenParser = config.getString("extractor.tokenparser")
 
-    CneAPI.initDict(idWord, stopWord, tagWord,
+    var tag = Array[String](tagWord, tagWord2)
+
+    CneAPI.initDict(idWord, stopWord, tag,
       redirectWord, sentParser, tokenParser);
 
   }

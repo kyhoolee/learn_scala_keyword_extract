@@ -111,7 +111,7 @@ libraryDependencies ++= Seq(
   "com.github.rlazoti" %% "finagle-metrics" % versions.finagle_metrics,
   "io.dropwizard.metrics" % "metrics-graphite" % versions.metrics,
 
-  "co.id.babe.analysis" % "article_filter" % "0.0.1-SNAPSHOT"
+  "co.id.babe.analysis" % "article_filter" % "0.0.2-SNAPSHOT"
 ).map(_.exclude("org.slf4j", "slf4j-log4j12")).map(_.exclude("org.slf4j", "slf4j-jdk14"))
 
 Revolver.settings
