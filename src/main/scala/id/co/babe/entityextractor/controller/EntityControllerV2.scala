@@ -7,7 +7,7 @@ import com.twitter.finatra.http.Controller
 import com.twitter.util.Future
 import com.wix.accord.Descriptions.Explicit
 import id.co.babe.entityextractor.domain.message.EntityMessage.EntityMessageRequest
-import id.co.babe.entityextractor.service.{EntityExtractorService, EntityExtractorServiceV2}
+import id.co.babe.entityextractor.service.{EntityExtractorServiceV2}
 import com.wix.accord._
 import com.wix.accord.dsl._
 import io.swagger.models.Swagger

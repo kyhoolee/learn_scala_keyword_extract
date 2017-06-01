@@ -37,7 +37,7 @@ class ApiServer extends HttpServer {
 			.register[SProtobufMessageBodyWriter, EntityMessageResponseV2]
 			.register[SProtobufMessageBodyWriter, EntityMessageResponse]
 
-		    .filter[LoggingMDCFilter[Request, Response]]
+			.filter[LoggingMDCFilter[Request, Response]]
 			.filter[TraceIdMDCFilter[Request, Response]]
 			.filter[CommonFilters]
 			.filter[ExceptionMappingFilter[Request]]

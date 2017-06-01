@@ -34,7 +34,7 @@ class EntityExtractorServiceV2 @Inject()
     val entities = CneAPI.getFullEntity(cleanedContent).asScala
     val entityCandidates = (for {
       e <- entities
-    } yield (e.name, TaggedEntityV2(e.name, e.occFreq, e.entityType.toByte))).toMap
+    } yield (e.name, TaggedEntityV2(e.name, e.occFreq, e.score, e.entityType.toByte))).toMap
 
     entityCandidates
   }
@@ -44,10 +44,12 @@ class EntityExtractorServiceV2 @Inject()
 
     entityCandidates.foreach(entityCandidate =>
       if (entityCandidate._2.occFreq > matchThres)
-        matches += EntityV2(entityCandidate._2.name, entityCandidate._2.occFreq, Option(0))
+        matches += EntityV2(entityCandidate._2.name, entityCandidate._2.occFreq, entityCandidate._2.score, Option(0))
 
       else
-        unmatches += EntityV2(entityCandidate._2.name, -1 * entityCandidate._2.occFreq, Option(0))
+        unmatches +=  EntityV2(entityCandidate._2.name, -1 * entityCandidate._2.occFreq, 0, Option(0))
+          //EntityV2("hihi", 0, 0.0, Option(0))
+          //EntityV2(entityCandidate._2.name, -1 * entityCandidate._2.occFreq, 0.0, Option(0))
     )
 
     EntityMessageResponseV2().update(

@@ -3,17 +3,23 @@ package id.co.babe.entityextractor.model
 /**
   * Created by tungpd on 5/8/17.
   */
-case class TaggedEntityV2(name: String,
-                     var  occFreq: Double,
-                    var entytyTyppe: Byte) {
+case class TaggedEntityV2(name: String, occFreq: Int, score: Double, entityType: Byte) {
 
   def this(name: String) {
-    this(name, 0.0, 0)
+    this(name, 0, 0.0, 0)
 
   }
 
+  def this(name:String, freq:Double, entityType: Byte) {
+    this(name, 0, freq, entityType)
+  }
+
   def this(name: String, freq: Double) {
-    this(name, freq, 0)
+    this(name, 0, freq, 0)
+  }
+
+  def this(name: String, count:Int, freq: Double) {
+    this(name, count, freq, 0)
   }
 
  /* def addAlias(word: String, freq: Double) = {
