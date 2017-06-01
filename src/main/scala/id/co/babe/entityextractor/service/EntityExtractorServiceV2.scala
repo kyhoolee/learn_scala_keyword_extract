@@ -20,7 +20,7 @@ class EntityExtractorServiceV2 @Inject()
     (articleRepository: ArticleRepository) extends Logging {
 
   private val tagPattern = "<[^>]+>".r
-  private val matchThres = 0.0;
+  private val matchThres = 0.0
 
   def extractEntity(content: String) = {
     assert(content != null)
@@ -34,7 +34,7 @@ class EntityExtractorServiceV2 @Inject()
     val entities = CneAPI.getFullEntity(cleanedContent).asScala
     val entityCandidates = (for {
       e <- entities
-    } yield (e.name, new TaggedEntityV2(e.name, e.occFreq, e.entityType.toByte))).toMap
+    } yield (e.name, TaggedEntityV2(e.name, e.occFreq, e.entityType.toByte))).toMap
 
     entityCandidates
   }
@@ -47,7 +47,7 @@ class EntityExtractorServiceV2 @Inject()
         matches += EntityV2(entityCandidate._2.name, entityCandidate._2.occFreq, Option(0))
 
       else
-        unmatches += EntityV2(entityCandidate._2.name, entityCandidate._2.occFreq, Option(0))
+        unmatches += EntityV2(entityCandidate._2.name, -1 * entityCandidate._2.occFreq, Option(0))
     )
 
     EntityMessageResponseV2().update(
@@ -63,7 +63,7 @@ class EntityExtractorServiceV2 @Inject()
         val decoded: String = new String(arr, "UTF-8")
         extractEntity(decoded)
       } else {
-        throw NotFoundException(s"Article ID #${articleId} not found!")
+        throw NotFoundException(s"Article ID #$articleId not found!")
       }
     }
   }
