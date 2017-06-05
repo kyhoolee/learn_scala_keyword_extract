@@ -5,6 +5,7 @@ import com.twitter.finatra.http.exceptions.NotFoundException
 import com.twitter.inject.Logging
 import com.twitter.util.Future
 import id.co.babe.analysis.CneAPI
+import id.co.babe.analysis.data.SolrClient
 import id.co.babe.entityextractor.domain.message.EntityMessage.EntityMessageResponseV2
 import id.co.babe.entityextractor.domain.message.EntityMessage.EntityMessageResponseV2.EntityV2
 import id.co.babe.entityextractor.model.TaggedEntityV2
@@ -24,11 +25,38 @@ class EntityExtractorServiceV2 @Inject()
 
   def extractEntity(content: String) = {
     assert(content != null)
-    for {
-      entityCandidates <- getEntityCandidates(content)
-      response <- divideMatchUnmatch(entityCandidates)
-    } yield response
+//    for {
+//      entityCandidates <- getEntityCandidates(content)
+//      response <- divideMatchUnmatch(entityCandidates)
+//    } yield response
+    getMatchUnmatchEntity(content)
   }
+
+
+  def getMatchUnmatchEntity(content:String): Future[EntityMessageResponseV2] = Future {
+    assert(content != null)
+
+
+
+    val entityMap = CneAPI.extractAllEntity(content)
+
+    val matches = for {
+      e <- entityMap.get("matched").asScala
+    } yield EntityV2(e.name, e.occFreq, e.score, Option(e.entityType))
+
+    val unmatches = for {
+      e <- entityMap.get("unmatched").asScala
+    } yield EntityV2(e.name, e.occFreq, e.score, Option(e.entityType))
+
+
+    EntityMessageResponseV2().update(
+      _.matches := matches.sortWith(_.score > _.score),
+      _.unmatches := unmatches.sortWith(_.occFreq > _.occFreq)
+    )
+  }
+
+
+
   private def getEntityCandidates(content: String) = Future {
     val cleanedContent = tagPattern.replaceAllIn(content, " ").replaceAll("\\s+", " ").trim
     val entities = CneAPI.getFullEntity(cleanedContent).asScala
@@ -53,7 +81,7 @@ class EntityExtractorServiceV2 @Inject()
     )
 
     EntityMessageResponseV2().update(
-      _.matches := matches.sortWith(_.occFreq > _.occFreq),
+      _.matches := matches.sortWith(_.score > _.score),
       _.unmatches := unmatches.sortWith(_.occFreq > _.occFreq)
     )
   }
@@ -63,7 +91,7 @@ class EntityExtractorServiceV2 @Inject()
       art => if(art.isDefined) {
         val arr = new BASE64Decoder().decodeBuffer(art.get.body)
         val decoded: String = new String(arr, "UTF-8")
-        extractEntity(decoded)
+        extractEntity(SolrClient.htmlText(decoded))
       } else {
         throw NotFoundException(s"Article ID #$articleId not found!")
       }

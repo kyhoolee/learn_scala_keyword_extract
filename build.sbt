@@ -111,7 +111,30 @@ libraryDependencies ++= Seq(
   "com.github.rlazoti" %% "finagle-metrics" % versions.finagle_metrics,
   "io.dropwizard.metrics" % "metrics-graphite" % versions.metrics,
 
-  "co.id.babe.analysis" % "article_filter" % "0.0.2-SNAPSHOT"
+  //"co.id.babe.analysis" % "article_filter" % "0.0.2-SNAPSHOT"
+  "redis.clients" % "jedis" % "2.7.0",
+  "mysql" % "mysql-connector-java" % "5.1.22",
+  "com.github.tototoshi" %% "scala-csv" % "1.3.4",
+  "org.scalaj" %% "scalaj-http" % "2.3.0",
+  "org.jsoup" % "jsoup" % "1.7.2",
+  "au.com.bytecode" % "opencsv" % "2.4",
+
+
+  "org.apache.httpcomponents" % "httpclient" % "4.2",
+  "org.apache.httpcomponents" % "httpmime" % "4.5.1",
+  "commons-httpclient" % "commons-httpclient" % "3.1",
+
+  "org.eclipse.jetty" % "jetty-server" % "9.2.17.v20160517",
+  "org.eclipse.jetty" % "jetty-servlet" % "9.2.17.v20160517",
+  "org.json" % "json" % "20160810",
+  "org.json" % "json" % "20160810",
+  "org.apache.opennlp" % "opennlp-tools" % "1.7.2",
+  "org.apache.opennlp" % "opennlp-uima" % "1.7.2",
+  "edu.stanford.nlp" % "stanford-corenlp" % "3.7.0",
+  "commons-codec" % "commons-codec" % "1.9"
+
+
+
 ).map(_.exclude("org.slf4j", "slf4j-log4j12")).map(_.exclude("org.slf4j", "slf4j-jdk14"))
 
 Revolver.settings
