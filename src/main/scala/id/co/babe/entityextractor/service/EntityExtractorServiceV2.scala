@@ -25,10 +25,6 @@ class EntityExtractorServiceV2 @Inject()
 
   def extractEntity(content: String) = {
     assert(content != null)
-//    for {
-//      entityCandidates <- getEntityCandidates(content)
-//      response <- divideMatchUnmatch(entityCandidates)
-//    } yield response
     getMatchUnmatchEntity(content)
   }
 

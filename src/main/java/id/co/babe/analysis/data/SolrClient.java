@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import id.co.babe.analysis.nlp.CneRefactor;
+import id.co.babe.analysis.nlp.DictUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -20,7 +22,7 @@ import id.co.babe.analysis.model.Article;
 import id.co.babe.analysis.model.Category;
 import id.co.babe.analysis.model.DocWordCat;
 import id.co.babe.analysis.model.Entity;
-import id.co.babe.analysis.nlp.CneDetector;
+import id.co.babe.analysis.nlp.CneRefactor;
 import id.co.babe.analysis.nlp.TextParser;
 import id.co.babe.analysis.util.HttpUtils;
 import id.co.babe.analysis.util.TextfileIO;
@@ -263,19 +265,19 @@ public class SolrClient {
 		String html = a.content;
 		Document doc = Jsoup.parse(html);
 		String text = doc.text();
-		return CneDetector.processCapitalized(text);
+		return CneRefactor.processCapitalized(text);
 	}
 	
 	public static void parseBody() {
 		String text = "Saint-Étienne is, arguably, the \"most successful\" club in French football history having won ten Ligue 1 titles, six Coupe de France titles, a Coupe de la Ligue title and five Trophée des Champions (the French Super Cup). The club's ten league titles are the most professional league titles won by a French club, while the six cup victories places the club third among most Coupe de France titles. Saint-Étienne has also won the second division championship on three occasions. The club achieved most of its honours in the 1960s and 1970s when the club was led by managers Jean Snella, Albert Batteux, and Robert Herbin. Saint-Étienne's primary rivals are Olympique Lyonnais, who are based in nearby Lyon. The two teams annually contest the Derby Rhône-Alpes. In 2009, the club added a female section to the football club.";
 	
-		CneDetector.processCapitalized(text);
+		CneRefactor.processCapitalized(text);
 	}
 	
 	
 	public static void sample() {
 		//TextParser.init();
-		CneDetector.init();
+		DictUtils.init();
 		List<Article> as = getBabeArticleById(11831647);//10672395); //10672395 //7911252
 		String q = queryList(as.get(0).catId);
 		System.out.println(q);
@@ -329,9 +331,9 @@ public class SolrClient {
 		List<Article> as = getBabeArticle(0, 1);
 		Article a = as.get(0);
 		
-		CneDetector.init();
+		DictUtils.init();
 		String content = htmlText(a.content);
-		List<List<String>> res = CneDetector.parse(content);
+		List<List<String>> res = CneRefactor.parse(content);
 		
 		System.out.println();
 		for(List<String> s : res) {
@@ -347,9 +349,9 @@ public class SolrClient {
 		List<Article> as = getBabeArticle(0, 1);
 		Article a = as.get(0);
 		
-		CneDetector.init();
+		DictUtils.init();
 		String content = htmlText(a.content);
-		Map<String, Double> res = CneDetector.processFreq(content);
+		Map<String, Double> res = CneRefactor.processFreq(content);
 		
 		System.out.println();
 		for(String key : res.keySet()) {
@@ -360,12 +362,12 @@ public class SolrClient {
 	public static void averageDocLen() {
 		List<Article> as = getBabeArticle(0, 1000);
 		
-		CneDetector.init();
+		DictUtils.init();
 		double tL = 0;
 		double c = as.size();
 		for(Article a : as) {
 			String content = htmlText(a.content);
-			long l = CneDetector.docLen(content);
+			long l = CneRefactor.docLen(content);
 			System.out.println(a.articleId + " -- " + l);
 			tL += l;
 		}
@@ -375,7 +377,7 @@ public class SolrClient {
 	}
 	
 	public static void allCatCandidate(int... catId) {
-		CneDetector.init();
+		DictUtils.init();
 		for(int c : catId) {
 			allCandidate(c);
 		}
@@ -415,7 +417,7 @@ public class SolrClient {
 			
 			
 			long start = System.currentTimeMillis();
-			List<List<String>> candidate = CneDetector.genCanScore(content);
+			List<List<String>> candidate = CneRefactor.genCanScore(content);
 			long value = System.currentTimeMillis() - start;
 			System.out.println("id: " + a.articleId + " -- time: " + (value * 0.001) + "\n\n");
 			result.addAll(candidate.get(0));
@@ -436,7 +438,7 @@ public class SolrClient {
 		List<Article> as = getBabeArticleById(10662651);
 		
 		long start = System.currentTimeMillis();
-		CneDetector.init();
+		DictUtils.init();
 		long value = System.currentTimeMillis() - start;
 		System.out.println("Processing time: " + value * 0.001);
 		
@@ -446,11 +448,11 @@ public class SolrClient {
 			
 			
 			start = System.currentTimeMillis();
-			Map<String, List<Entity>> r = CneDetector.genGroupCan(content);
+			Map<String, List<Entity>> r = CneRefactor.genGroupCan(content);
 			value = System.currentTimeMillis() - start;
 			
 			
-			CneDetector.printResult(r);
+			CneRefactor.printResult(r);
 			System.out.println("Processing time: " + value * 0.001);
 		}
 		
@@ -502,28 +504,23 @@ public class SolrClient {
 	
 	public static void test() {
 		String c = "Januari 2017";
-		CneDetector.init();
-		boolean r = CneDetector.candidateFilter(c);
+		DictUtils.init();
+		boolean r = CneRefactor.candidateFilter(c);
 		System.out.println(r);
 	}
 	
 	public static void test1() {
 		String c = "Lubang jalan di ruas Kudus-Pati, Desa Gondoharum, Kecamatan Jekulo. (suaramerdeka.com/Anton W. Hartono)";
-		String r = CneDetector.preProcess(c);
+		String r = CneRefactor.preProcess(c);
 		System.out.println(r);
 	}
 	
-	public static void testRedirect() {
-		CneDetector.init();
-		//SpellApp.printRedirect();
-		System.out.println(SpellApp.checkRedirect("ahok"));
-		
-	}
+
 	
 	public static void allCategoryCandidate() {
 		List<Category> cats = SqlClient.getEnabledCategory();
 		int count = 0;
-		CneDetector.init();
+		DictUtils.init();
 		for(Category c : cats) {
 			count ++;
 			System.out.println(count + " :: " + c.catId + " " + c.catName);

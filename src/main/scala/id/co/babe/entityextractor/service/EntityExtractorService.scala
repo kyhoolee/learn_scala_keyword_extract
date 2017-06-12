@@ -56,8 +56,12 @@ class EntityExtractorService @Inject() (articleRepository: ArticleRepository,
 			var retMap = mutable.HashMap.empty[String, Int]
 
 			list.foreach { entityTagged =>
-				if (!retMap.contains(entityTagged.name) || (entityTagged.entityType != 7 && retMap(entityTagged.name) == 7))
+				if (!retMap.contains(entityTagged.name)
+					|| (entityTagged.entityType != 7
+					&& retMap(entityTagged.name) == 7)) {
+
 					retMap += (entityTagged.name -> entityTagged.entityType)
+				}
 			}
 
 			retMap.toMap

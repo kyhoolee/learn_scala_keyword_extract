@@ -1,12 +1,6 @@
 package id.co.babe.analysis.util;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -67,6 +61,27 @@ public class Utils {
 		}
 		System.out.println();
 	}
+
+	public static Set<String> variedWord(String w) {
+		Set<String> r = new HashSet<String>();
+		r.add(w);
+		r.add(w.replace("-", " "));
+		r.add(w.replace("-", ""));
+		return r;
+	}
+
+
+	public static void printMapSet(Map<String, Set<String>> data) {
+		for(String key : data.keySet()) {
+			System.out.println();
+			Set<String> value = data.get(key);
+			System.out.println(key);
+			for(String r : value) {
+				System.out.print(" -- " + r);
+			}
+
+		}
+	}
 	
 	
 	public static void printArray(Collection<String> values) {
@@ -82,6 +97,12 @@ public class Utils {
 			System.out.println(v.toString());
 		}
 	}
-	
+
+	public static void printSet(Collection<?> values) {
+		System.out.println();
+		for(Object v : values) {
+			System.out.print( " -- " + v.toString());
+		}
+	}
 
 }

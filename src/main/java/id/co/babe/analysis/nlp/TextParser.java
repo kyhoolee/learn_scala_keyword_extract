@@ -21,7 +21,7 @@ public class TextParser {
 	public static Tokenizer tokenizer = null;
 	
 	public static void init() {
-		init("nlp-model/en-sent.bin", "nlp-model/en-token.bin");
+		init("data/nlp_model/en-sent.bin", "data/nlp_model/en-token.bin");
 	}
 	
 	public static void init(String sentBin, String tokenBin) {

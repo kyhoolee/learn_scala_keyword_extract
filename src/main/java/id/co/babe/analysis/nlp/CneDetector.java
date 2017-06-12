@@ -13,11 +13,10 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import id.co.babe.spelling.service.RedisSpellApp;
 
 import edu.stanford.nlp.util.Characters;
 
-public class CneDetector {
+class CneDetector {
 	
 	public static String[] news_common = {"penulis", "editor", "sumber", "laporan", "wartawan"};
 	public static Set<String> set_news_common = new HashSet<String>(Arrays.asList(news_common)); 
@@ -40,7 +39,7 @@ public class CneDetector {
 
 	public static String[] currency = { "rp", "usd", "rupiah", "won" };
 	
-	public static String[] connected = {"of", "de", "the", ":", "'s"};
+	public static String[] connected = {"of", "de", "des", "the", ":", "'s"};
 	public static final Set<String> set_connected = new HashSet<String>(
 			Arrays.asList(connected));
 	
@@ -48,17 +47,7 @@ public class CneDetector {
 	public static final Set<String> set_connect_punc = new HashSet<String>(
 			Arrays.asList(connect_punc));
 
-	public static void init() {
-		// RedisSpellApp.initIndo("nlp_data/indo_dict/id_full.txt");
-//		RedisSpellApp.initNormal("nlp_data/indo_dict/id_full.txt");
-//		RedisSpellApp.initStop("nlp_data/indo_dict/stop_word.txt");
-//		RedisSpellApp.initEntity(
-//				"nlp_data/indo_dict/wiki_tag.txt", 
-//				"/home/mainspring/tutorial/resources/data/DbPedia/en/filter/wiki_tag_en.2017.txt");
-//		RedisSpellApp.initRedirect("nlp_data/indo_dict/redirect_entity_map.txt");
-		
-		TextParser.init();
-	}
+
 
 
 
@@ -244,7 +233,7 @@ public class CneDetector {
 		String phrase = w.toLowerCase();
 		phrase = removePunctuation(phrase);
 		boolean result = 
-				phrase.length() > 1 && !RedisSpellApp.checkStop(phrase)
+				phrase.length() > 1 && !DictUtils.checkStop(phrase)
 				&& !checkCommonPhrase(phrase)
 				&& !checkDatePhrase(phrase) 
 				&& !checkMoneyPhrase(phrase)
@@ -419,7 +408,7 @@ public class CneDetector {
 //		Map<String, Set<String>> r = new HashMap<String, Set<String>>();
 //
 //		for (String w : ws) {
-//			Set<String> tagged = RedisSpellApp.prefixEntity(w);
+//			Set<String> tagged = DictUtils.prefixEntity(w);
 //			if (tagged.size() > 0)
 //				r.put(w, tagged);
 //		}
@@ -431,7 +420,7 @@ public class CneDetector {
 //		Map<String, Integer> r = new HashMap<String, Integer>();
 //
 //		for (String w : ws) {
-//			int tagged = RedisSpellApp.countPrefix(w);
+//			int tagged = DictUtils.countPrefix(w);
 //			if (tagged > 0)
 //				r.put(w, tagged);
 //		}
@@ -444,17 +433,11 @@ public class CneDetector {
 
 		Set<String> filtered = new HashSet<String>();
 		for (String c : candidate.keySet()) {
-			
-			System.out.println(c + " -- " + RedisSpellApp.checkEntity(c));
-			
-			if (RedisSpellApp.checkEntity(c) > 0 && (c.length() > 2 || candidate.get(c) > 1) ) {
+
+			if (DictUtils.checkEntity(c) && (c.length() > 2 || candidate.get(c) > 1) ) {
 				filtered.add(c);
 			} 
 
-			if(candidate.get(c) > 1 && c.length() > 3) {
-				filtered.add(c);
-			}
-			
 		}
 
 		System.out.println("\n\n");
@@ -504,7 +487,7 @@ public class CneDetector {
 		while (lastIndex != -1) {
 			lastIndex = text.indexOf(can, lastIndex);
 			if (lastIndex != -1) {
-				count += Math.exp((text.length() - lastIndex) * 0.5
+				count += Math.exp((text.length() - lastIndex) * 0.1
 						/ text.length());
 				lastIndex += can.length();
 			}
@@ -543,7 +526,7 @@ public class CneDetector {
 		Map<String, Double> r = new HashMap<String, Double>();
 		
 		for(String key : input.keySet()) {
-			String root = RedisSpellApp.checkRedirect(key);
+			String root = DictUtils.checkRedirect(key);
 			
 			if(r.containsKey(root)) {
 				r.put(root, r.get(root) + input.get(key));
@@ -562,7 +545,7 @@ public class CneDetector {
 		
 		Map<String, Set<String>> redirect = new HashMap<String, Set<String>>();
 		for(String key : input.keySet()) {
-			String root = RedisSpellApp.checkRedirect(key).toLowerCase();
+			String root = DictUtils.checkRedirect(key).toLowerCase();
 			
 			if(r.containsKey(root)) {
 				Set<String> val = redirect.get(root);
@@ -650,7 +633,7 @@ public class CneDetector {
 //		return result;
 //	}
 	
-	public static List<Entity> getEntity(Map<String, Double> cans, Map<String, Integer> counts) {
+	public static List<Entity> getMatchedEntity(Map<String, Double> cans, Map<String, Integer> counts) {
 		List<Entity> result = new ArrayList<Entity>();
 		
 		for(String c : cans.keySet()) {
@@ -661,13 +644,15 @@ public class CneDetector {
 		return result;
 	}
 	
-	public static List<Entity> getEntity(Map<String, Integer> cans, Set<String> matched) {
+	public static List<Entity> getUnmatchedEntity(Map<String, Integer> cans, Set<String> matched) {
 		List<Entity> result = new ArrayList<Entity>();
 		
 		for(String c : cans.keySet()) {
 			if(!matched.contains(c)) {
-				Entity e = new Entity(c, cans.get(c), 0.0, Entity.type_unknow);
-				result.add(e);
+				if(cans.get(c) > 0) {
+					Entity e = new Entity(c, cans.get(c), 0.0, Entity.type_unknow);
+					result.add(e);
+				}
 			}
 		}
 		
@@ -692,7 +677,7 @@ public class CneDetector {
 		Map<String, Integer> combCan = processCombination(capCan, text);
 		System.out.println("\n\n");
 		System.out.println("------------ comCan-----------------");
-		Utils.printArray(combCan.keySet());
+		//Utils.printArray(combCan.keySet());
 		System.out.println("------------ comCan-----------------");
 		System.out.println("\n\n");
 		
@@ -702,7 +687,7 @@ public class CneDetector {
 		Set<String> longCan = filterShort(combCan);
 		System.out.println("\n\n");
 		System.out.println("------------ longCan-----------------");
-		Utils.printArray(longCan);
+		//Utils.printArray(longCan);
 		System.out.println("------------ longCan-----------------");
 		System.out.println("\n\n");
 
@@ -713,14 +698,14 @@ public class CneDetector {
 		
 		System.out.println("\n\n");
 		System.out.println("------------ matched-----------------");
-		Utils.printArray(matched.keySet());
+		//Utils.printArray(matched.keySet());
 		System.out.println("------------ matched-----------------");
 		System.out.println("\n\n");
 		matched = Utils.MapUtil.sortByValue(matched);
 		combCan = Utils.MapUtil.sortByValue(combCan);
 		
-		List<Entity> matchedEntity = getEntity(matched, combCan);
-		List<Entity> unmatchedEntity = getEntity(combCan, matched.keySet());
+		List<Entity> matchedEntity = getMatchedEntity(matched, combCan);
+		List<Entity> unmatchedEntity = getUnmatchedEntity(combCan, matched.keySet());
 		
 		result.put("matched", matchedEntity);
 		
@@ -775,7 +760,7 @@ public class CneDetector {
 	}
 	
 	public static void printEntity(Entity e) {
-		System.out.println(e.name + " : " + e.occFreq);
+		System.out.println(e.name + " : " + e.score + " : " + e.occFreq);
 	}
 	
 
@@ -861,17 +846,18 @@ public class CneDetector {
 	
 	
 	public static boolean checkRoman(String word) {
-		Pattern pattern = Pattern.compile("(M|m){0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?(I|i){0,3})");
+		Pattern pattern = Pattern.compile("(M|m){0,4}(CM|cm|CD|cd|D|d?C{0,3})(XC|xc|XL|xi|L|l?(X|x){0,3})(IX|ix|IV|iv|V|v?(I|i){0,3})");
 		Matcher matcher = pattern.matcher(word);
 		while (matcher.find()) {
 			String str = matcher.group();
-			//System.out.println(str);
 			if(str.equals(word)) {
 				return true;
 			}
 		}
 		return false;
 	}
+
+
 	
 	public static boolean checkRomanNumeral(String input) {
 		String[] ws = input.split("\\s+");
@@ -995,14 +981,14 @@ public class CneDetector {
 
 	public static boolean checkStop(String word) {
 		boolean result = !checkAllCapitalized(word)
-				&& (RedisSpellApp.checkStop(word) || !checkLetterNumeric(word) || (word
+				&& (DictUtils.checkStop(word) || !checkLetterNumeric(word) || (word
 						.length() < 2));
 
 		return result;
 	}
 
 	public static boolean checkCorrect(String word) {
-		return RedisSpellApp.checkNormal(word);
+		return DictUtils.checkNormal(word);
 	}
 
 	public static boolean checkCapital(String word) {
@@ -1068,33 +1054,7 @@ public class CneDetector {
 		return result;
 	}
 
-	public static void main(String[] args) {
-		checkCap();
-		//testGenComb();
-		//System.out.println(checkRomanNumeral("Viiii"));
-	}
 	
-	public static void checkCap() {
-		System.out.println(checkCapitalorNumeric("'Aku"));
-	}
 
-	public static void testGenComb() {
-		RedisSpellApp.initStop("nlp_data/indo_dict/stop_word.txt");
-		
-		String word = "Age of Youth";
-		Set<String> r = genComb(word);
-		System.out.println("---");
-		Utils.printCollection(r);
-		System.out.println("---");
-	}
-
-	public static void sample() {
-		init();
-
-		String data = "Indonesia torehkan namanya di panggung dunia lewat rancangan indah yang membalut sang Puteri Indonesia dalam ajang kecantikan dunia ";
-		List<String> w = sentParse(data);
-		List<String> p = capPhraseParse(w);
-		Utils.printArray(p);
-	}
 
 }

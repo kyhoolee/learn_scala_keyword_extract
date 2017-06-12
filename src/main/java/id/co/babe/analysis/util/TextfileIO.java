@@ -167,7 +167,7 @@ public class TextfileIO {
 			String line;
 			while ((line = br.readLine()) != null) {
 				if (line != null && !line.isEmpty())
-					c.addAll(SpellApp.variedWord(line.toLowerCase()));
+					c.addAll(Utils.variedWord(line.toLowerCase()));
 
 			}
 		} catch (IOException e) {

@@ -6,10 +6,13 @@ import com.twitter.finagle.http.{Request, Response}
 import com.twitter.finatra.http.HttpServer
 import com.twitter.finatra.http.filters.{CommonFilters, ExceptionMappingFilter, LoggingMDCFilter, TraceIdMDCFilter}
 import com.twitter.finatra.http.routing.HttpRouter
-import id.co.babe.entityextractor.controller.{EntityController, EntityControllerV2, EntitySwagger}
+import id.co.babe.entityextractor.controller.{EntityController, EntityControllerV2, EntityControllerV3, EntitySwagger}
+import id.co.babe.entityextractor.domain.message.DictMessage.DictInsertRequest
+import id.co.babe.entityextractor.domain.message.DictMessage.DictInsertResponse
+import id.co.babe.entityextractor.domain.message.DictMessageProtos.RedirectInsertRequest
 import id.co.babe.entityextractor.domain.message.EntityMessage.{EntityMessageRequest, EntityMessageResponse, EntityMessageResponseV2}
 import id.co.babe.entityextractor.marshalling.{SProtobufMessageBodyReader, SProtobufMessageBodyWriter}
-import id.co.babe.entityextractor.module.{ContextModule, EntityExtractorV2Module, GraphiteMetricsModule, TypesafeConfigModule}
+import id.co.babe.entityextractor.module._
 import io.swagger.models.Info
 
 /**
@@ -27,22 +30,25 @@ class ApiServer extends HttpServer {
 		TypesafeConfigModule,
 		ContextModule,
 		GraphiteMetricsModule,
-		EntityExtractorV2Module
+		EntityExtractorV3Module
 	)
 
 	override protected def configureHttp(router: HttpRouter): Unit = {
 		router
 			.register[SProtobufMessageBodyReader[EntityMessageRequest]]
+			.register[SProtobufMessageBodyReader[DictInsertRequest]]
+			///.register[SProtobufMessageBodyReader[RedirectInsertRequest]]
 
 			.register[SProtobufMessageBodyWriter, EntityMessageResponseV2]
 			.register[SProtobufMessageBodyWriter, EntityMessageResponse]
+			.register[SProtobufMessageBodyWriter, DictInsertResponse]
 
 			.filter[LoggingMDCFilter[Request, Response]]
 			.filter[TraceIdMDCFilter[Request, Response]]
 			.filter[CommonFilters]
 			.filter[ExceptionMappingFilter[Request]]
 
-			.add[EntityControllerV2]
+			.add[EntityControllerV3]
 			.add[EntityController]
 			.add[WebjarsController]
 			.add(new SwaggerController(swagger = EntitySwagger))

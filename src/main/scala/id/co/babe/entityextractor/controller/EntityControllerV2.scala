@@ -24,13 +24,7 @@ class EntityControllerV2 @Inject()(entityExtractorService: EntityExtractorServic
 
   override protected implicit val swagger: Swagger = EntitySwagger
 
-  /*postWithDoc("/v2/entity/extract"){doc =>
-    doc.summary("Extract Entity by body")
-      .tag("Entity Extractor")
-      .bodyParam[EntityExtractorRequest]("body", "article content",
-        Option(new EntityExtractorRequest(body = "Article Content")))
-      .produces("application/json")
-  }*/
+
   post("/%s/entity/extract".format(apiVersion)) {request: EntityMessageRequest =>
     validate(request) match {
       case Success => {
@@ -47,12 +41,6 @@ class EntityControllerV2 @Inject()(entityExtractorService: EntityExtractorServic
 
   }
 
-  /*postWithDoc("/v2/entity/extract/:aid") {doc =>
-    doc.summary("Extract Entity by Article ID")
-      .tag("Entity Extractor")
-      .routeParam[Long]("aid", "article id")
-      .produces("application/json")
-  }*/
   post("/%s/entity/extract/:aid".format(apiVersion)) { request: Request =>
     guardAid(request)(aid => entityExtractorService.extractEntityById(aid))
   }

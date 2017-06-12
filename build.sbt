@@ -4,7 +4,7 @@ import sbtprotobuf.{ProtobufPlugin=>JPB}
 name := "entity-extractor-service"
 organization := "id.co.babe"
 version := "1.2"
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.8"
 
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
@@ -118,7 +118,7 @@ libraryDependencies ++= Seq(
   "org.scalaj" %% "scalaj-http" % "2.3.0",
   "org.jsoup" % "jsoup" % "1.7.2",
   "au.com.bytecode" % "opencsv" % "2.4",
-
+  //"id.co.babe" %% "entity-service-client" % "1.2",
 
   "org.apache.httpcomponents" % "httpclient" % "4.2",
   "org.apache.httpcomponents" % "httpmime" % "4.5.1",

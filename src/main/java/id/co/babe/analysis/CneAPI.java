@@ -2,7 +2,8 @@ package id.co.babe.analysis;
 
 import id.co.babe.analysis.data.SolrClient;
 import id.co.babe.analysis.model.Entity;
-import id.co.babe.analysis.nlp.CneDetector;
+import id.co.babe.analysis.nlp.CneRefactor;
+import id.co.babe.analysis.nlp.DictUtils;
 import id.co.babe.analysis.nlp.TextParser;
 import id.co.babe.analysis.util.Utils;
 
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import id.co.babe.spelling.service.SpellApp;
 
 public class CneAPI {
 	public static String id_word = "nlp_data/indo_dict/id_full.txt";
@@ -22,11 +22,11 @@ public class CneAPI {
 	public static String token_parser = "nlp-model/en-token.bin";
 	
 	public static void initDict() {
-		//CneDetector.init();
-		SpellApp.initNormal(id_word);
-		SpellApp.initStop(stop_word);
-		SpellApp.initTag(tag_word);
-		SpellApp.initRedirect(redirect_word);
+
+		DictUtils.initNormal(id_word);
+		DictUtils.initStop(stop_word);
+		DictUtils.initEntity(tag_word);
+		DictUtils.initRedirect(redirect_word);
 		//TextParser.init();
 		TextParser.init(sent_parser, token_parser);
 	}
@@ -41,11 +41,11 @@ public class CneAPI {
 	 * @param token_parser
 	 */
 	public static void initDict(String id_word, String stop_word, String tag_word, String redirect_word, String sent_parser, String token_parser) {
-		//CneDetector.init();
-//		SpellApp.initNormal(id_word);
-//		SpellApp.initStop(stop_word);
-//		SpellApp.initTag(tag_word);
-//		SpellApp.initRedirect(redirect_word);
+
+//		DictUtils.initNormal(id_word);
+//		DictUtils.initStop(stop_word);
+//		DictUtils.initTag(tag_word);
+//		DictUtils.initRedirect(redirect_word);
 		//TextParser.init();
 		TextParser.init(sent_parser, token_parser);
 	}
@@ -53,15 +53,15 @@ public class CneAPI {
 	
 	
 	public static void initDict(String id_word, String stop_word, String[] tag_word, String redirect_word, String sent_parser, String token_parser) {
-		//CneDetector.init();
-//		SpellApp.initNormal(id_word);
-//		System.out.println(id_word);
-//		SpellApp.initStop(stop_word);
-//		System.out.println(stop_word);
-//		SpellApp.initEntity(tag_word);
-//		Utils.printArray(tag_word);
-//		SpellApp.initRedirect(redirect_word);
-//		System.out.println(redirect_word);
+		//CneRefactor.init();
+		DictUtils.initNormal(id_word);
+		System.out.println(id_word);
+		DictUtils.initStop(stop_word);
+		System.out.println(stop_word);
+		DictUtils.initEntity(tag_word);
+		Utils.printArray(tag_word);
+		DictUtils.initRedirect(redirect_word);
+		System.out.println(redirect_word);
 		//TextParser.init();
 		TextParser.init(sent_parser, token_parser);
 		System.out.println(sent_parser);
@@ -69,15 +69,15 @@ public class CneAPI {
 	}
 	
 	public static void initDict(String id_word, String stop_word, String redirect_word, String sent_parser, String token_parser, String tag_word, String tag_word2) {
-		//CneDetector.init();
-		SpellApp.initNormal(id_word);
+		//CneRefactor.init();
+		DictUtils.initNormal(id_word);
 		System.out.println(id_word);
-		SpellApp.initStop(stop_word);
+		DictUtils.initStop(stop_word);
 		System.out.println(stop_word);
-		SpellApp.initEntity(tag_word, tag_word2);
+		DictUtils.initEntity(tag_word, tag_word2);
 		System.out.println(tag_word);
 		System.out.println(tag_word2);
-		SpellApp.initRedirect(redirect_word);
+		DictUtils.initRedirect(redirect_word);
 		System.out.println(redirect_word);
 		//TextParser.init();
 		TextParser.init(sent_parser, token_parser);
@@ -91,7 +91,7 @@ public class CneAPI {
 	
 	
 	public static Map<String, List<Entity>> extractAllEntity(String text) {
-		return CneDetector.genGroupCan(text);
+		return CneRefactor.genGroupCan(text);
 	}
 	
 	public static String htmlText(String html) {
@@ -100,7 +100,7 @@ public class CneAPI {
 	
 	
 	public static List<Entity> getFullEntity(String text) {
-		Map<String, List<Entity>> enMap = CneDetector.genGroupCan(text);
+		Map<String, List<Entity>> enMap = CneRefactor.genGroupCan(text);
 		List<Entity> r = new ArrayList<Entity>();
 		
 		r.addAll(enMap.get("matched"));
