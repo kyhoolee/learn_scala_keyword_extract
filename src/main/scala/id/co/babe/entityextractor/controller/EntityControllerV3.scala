@@ -57,16 +57,16 @@ class EntityControllerV3 @Inject()(service: EntityExtractorApiV3) extends BaseCo
     ent => ent.body is notEmpty
   }
 
-  /*implicit val dictInsertValidator = validator[DictInsertRequest] {
+  implicit val dictInsertValidator = validator[DictInsertRequest] {
     ent => ent.word is notEmpty
   }
 
   implicit val redirectInsertValidator = validator[RedirectInsertRequest] {
     ent => ent.word is notEmpty
-  }*/
+  }
 
 
-  /*post("/%s/entity/delete/redirect".format(apiVersion)){ req : RedirectInsertRequest =>
+  post("/%s/entity/delete/redirect".format(apiVersion)){ req : RedirectInsertRequest =>
     validate(req) match {
       case Success => deleteRedirect(req)
       case Failure(violations) => handleValidationError(violations)
@@ -91,6 +91,44 @@ class EntityControllerV3 @Inject()(service: EntityExtractorApiV3) extends BaseCo
     service.insertDictRedirect(req.word, req.redirect)
   }
 
+  post("/%s/entity/check/redirect".format(apiVersion)){ req : RedirectInsertRequest =>
+    validate(req) match {
+      case Success => checkRedirect(req)
+      case Failure(violations) => handleValidationError(violations)
+    }
+  }
+
+
+  def checkRedirect(req:RedirectInsertRequest) = {
+    service.checkDictRedirect(req.word)
+  }
+
+
+  post("/%s/entity/check/dict".format(apiVersion)){ req : DictInsertRequest =>
+    validate(req) match {
+      case Success => checkDict(req)
+      case Failure(violations) => handleValidationError(violations)
+    }
+  }
+
+  def checkDict(req:DictInsertRequest) = {
+    req.dictType match {
+      case "stop" =>
+        val r = service.checkDictStop(req.word.toLowerCase)
+        DictInsertResponse(r + "")
+
+      case "normal" =>
+        val r = service.removeDictNormal(req.word.toLowerCase)
+        DictInsertResponse(r + "")
+
+      case "entity" =>
+        val r = service.removeDictEntity(req.word.toLowerCase)
+        DictInsertResponse(r + "")
+
+      case _ => DictInsertResponse("error type")
+
+    }
+  }
 
   post("/%s/entity/delete/dict".format(apiVersion)){ req : DictInsertRequest =>
     validate(req) match {
@@ -144,7 +182,7 @@ class EntityControllerV3 @Inject()(service: EntityExtractorApiV3) extends BaseCo
       case _ => DictInsertResponse("error type")
 
     }
-  }*/
+  }
 
 
 

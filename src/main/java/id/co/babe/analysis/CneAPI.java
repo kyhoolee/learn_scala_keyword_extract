@@ -49,6 +49,16 @@ public class CneAPI {
 		//TextParser.init();
 		TextParser.init(sent_parser, token_parser);
 	}
+
+	public static void initDict(String sent_parser, String token_parser) {
+
+//		DictUtils.initNormal(id_word);
+//		DictUtils.initStop(stop_word);
+//		DictUtils.initTag(tag_word);
+//		DictUtils.initRedirect(redirect_word);
+		//TextParser.init();
+		TextParser.init(sent_parser, token_parser);
+	}
 	
 	
 	

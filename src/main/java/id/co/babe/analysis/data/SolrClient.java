@@ -435,7 +435,7 @@ public class SolrClient {
 	
 	
 	public static void allEntity() {
-		List<Article> as = getBabeArticleById(10662651);
+		List<Article> as = getBabeArticleById(10648512);
 		
 		long start = System.currentTimeMillis();
 		DictUtils.init();
@@ -621,14 +621,14 @@ public class SolrClient {
 		TextfileIO.writeFile("sample_result/accuracy.30.5.txt", result);
 	}
 
-	public static void main(String[] args) {
+	public static void test(String[] args) {
 		//testRedirect();
 		//test1();
 		//test();
 		//printCategory();
-		//allEntity();
+		allEntity();
 		//sampleEstimate();
-		allCategoryCandidate();
+		//allCategoryCandidate();
 		//allCandidate(45, 50, 26, 27, 28);
 		//averageDocLen();
 		//freqSample();

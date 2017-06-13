@@ -12,6 +12,8 @@ import id.co.babe.analysis.util.Utils;
 //import id.co.babe.entity.client.EntityClient;
 //import id.co.babe.entity.client.domain.JEntityRedisBulkInsertRequest;
 //import id.co.babe.entity.client.domain.JEntityRedisInsertResponse;
+//import id.co.babe.entity.client.EntityClient;
+//import id.co.babe.entity.client.domain.JEntityRedisHashSetRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -61,6 +63,12 @@ public class HttpSpellApp implements ISpellApp {
 //        //testRedirect();
 //        //testCheckWord();
 //    }
+
+    public void redirectInit(String address, String redirect) {
+        //HttpSpellApp.getInstance().initClient(address);
+        HttpSpellApp.getInstance().initRemoteRedirect(redirect);
+    }
+
 
     public void dataInit(String address, String normal, String stop, String entity1, String entity2) {
         //HttpSpellApp.getInstance().initClient(address);
@@ -384,9 +392,37 @@ public class HttpSpellApp implements ISpellApp {
         }
     }
 
+    public void insertRedirectRedis(String word, String redirect) {
+//        JEntityRedisHashSetRequest content = new JEntityRedisHashSetRequest(word, redirect);
+//        Future<String> insertion = cli.jInsertRedirect(content);
+//
+//        try {
+//            String result = Await.result(insertion);
+//            //System.out.println(result.getEntityType() + " -- " + result.getKeyword());
+//        } catch (Exception e) {
+//            System.out.println("error insert article : " + e + " -- " + word + " -- " + redirect);
+//        }
+
+    }
+
     public void initRemoteRedirect(String path) {
-        if (isLocal) {
-            SpellApp.getInstance().initRedirect(path);
+        List<String[]> redirect = TextfileIO.readCsv(path);
+        System.out.println("redirect size " + redirect.size());
+        int count = 0;
+        long start = System.currentTimeMillis();
+        for (String[] r : redirect) {
+            if (r.length == 2) {
+                count ++;
+                insertRedirectRedis(r[0].toLowerCase(), r[1].toLowerCase());
+
+                if (count % 100 == 0) {
+                    long time = System.currentTimeMillis() - start;
+                    System.out.println(time + " -- " + count);
+                    start = System.currentTimeMillis();
+
+                }
+
+            }
         }
     }
 

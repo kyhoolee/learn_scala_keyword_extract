@@ -27,10 +27,12 @@ assemblyMergeStrategy in assembly := {
   case PathList("com", "google", xs @ _*) => MergeStrategy.last
   case PathList("org", "apache", xs @ _*) => MergeStrategy.last
   case PathList("org", "slf4j", xs @ _*) => MergeStrategy.last
-  case PathList("javax", "servlet", xs @ _*) => MergeStrategy.last
   case PathList("org", "joda", xs @ _*) => MergeStrategy.last
+  case PathList("com", "twitter", xs @ _*) => MergeStrategy.last
+  case PathList("javax", "servlet", xs @ _*) => MergeStrategy.last
   case other => MergeStrategy.defaultMergeStrategy(other)
 }
+//mainClass in assembly := Some("id.co.babe.entityextractor.data.DataClient")
 
 assemblyJarName in assembly := s"${name.value}-${version.value}.jar"
 
@@ -119,7 +121,7 @@ libraryDependencies ++= Seq(
   "org.jsoup" % "jsoup" % "1.7.2",
   "au.com.bytecode" % "opencsv" % "2.4",
 
-//  "id.co.babe" %% "entity-service-client" % "1.2",
+  //"id.co.babe" %% "entity-service-client" % "1.2",
 
   "org.apache.httpcomponents" % "httpclient" % "4.2",
   "org.apache.httpcomponents" % "httpmime" % "4.5.1",

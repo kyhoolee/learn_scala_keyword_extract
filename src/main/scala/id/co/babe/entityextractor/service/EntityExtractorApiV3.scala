@@ -75,16 +75,30 @@ class EntityExtractorApiV3 @Inject()(articleRepository: ArticleRepository) exten
   }
 
   def removeDictStop(word:String): Unit = {
-    DictUtils.insertStop(word)
+    DictUtils.removeStop(word)
   }
   def removeDictNormal(word:String): Unit = {
-    DictUtils.insertNormal(word)
+    DictUtils.removeNormal(word)
   }
   def removeDictEntity(word:String): Unit = {
-    DictUtils.insertEntity(word)
+    DictUtils.removeEntity(word)
   }
   def removeDictRedirect(word:String, redirect:String): Unit = {
     DictUtils.removeRedirect(word, redirect)
+  }
+
+
+  def checkDictStop(word:String) = {
+    DictUtils.checkStop(word)
+  }
+  def checkDictNormal(word:String) = {
+    DictUtils.checkNormal(word)
+  }
+  def checkDictEntity(word:String) = {
+    DictUtils.checkEntity(word)
+  }
+  def checkDictRedirect(word:String) = {
+    DictUtils.checkRedirect(word)
   }
 
 

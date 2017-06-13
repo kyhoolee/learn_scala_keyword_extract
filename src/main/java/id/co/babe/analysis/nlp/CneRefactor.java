@@ -106,7 +106,7 @@ public class CneRefactor extends CneDetector {
         for (int i = 0 ; i < cans.length ; i ++) {
 
             String c = cans[i];
-            if (checkEntities[i] && (c.length() > 2 || candidate.get(c) > 1) ) {
+            if (checkEntities[i] && !DictUtils.checkStop(c) && (c.length() > 2 || candidate.get(c) > 1) ) {
                 filtered.add(c);
             }
         }

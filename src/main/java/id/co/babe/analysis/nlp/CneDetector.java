@@ -39,7 +39,7 @@ class CneDetector {
 
 	public static String[] currency = { "rp", "usd", "rupiah", "won" };
 	
-	public static String[] connected = {"of", "de", "des", "the", ":", "'s"};
+	public static String[] connected = {"of", "de", "des", "the", ":", "'s", "or"};
 	public static final Set<String> set_connected = new HashSet<String>(
 			Arrays.asList(connected));
 	

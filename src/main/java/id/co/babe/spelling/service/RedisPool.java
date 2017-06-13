@@ -14,7 +14,7 @@ public class RedisPool {
 	public static String redis_host = "10.2.15.46";//"localhost";
 	public static int redis_port = 6377;//6379;
 	public static String redis_pass = null;
-	public static int redis_index = 0;
+	public static int redis_index = 1;
 	
 	
 	public static String configPath() {
