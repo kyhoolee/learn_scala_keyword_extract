@@ -1,19 +1,23 @@
 package id.co.babe.spelling.service;
 
+import com.twitter.finagle.Http;
+import com.twitter.util.Await;
+import com.twitter.util.Future;
 import id.co.babe.analysis.util.HttpUtils;
 import id.co.babe.analysis.util.TextfileIO;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import id.co.babe.analysis.util.Utils;
+//import id.co.babe.entity.client.EntityClient;
+//import id.co.babe.entity.client.domain.JEntityRedisBulkInsertRequest;
+//import id.co.babe.entity.client.domain.JEntityRedisInsertResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class HttpSpellApp implements ISpellApp {
     private static HttpSpellApp instance = new HttpSpellApp();
+
     private HttpSpellApp(){}
     public static HttpSpellApp getInstance(){
         return instance;
@@ -28,17 +32,49 @@ public class HttpSpellApp implements ISpellApp {
 
     public static String remote_url = "http://10.2.15.176:9004";
     public static boolean isLocal = false;
+    //EntityClient cli = EntityClient.apply("10.2.15.176:9004");
 
+//    public void initClient(String address) {
+//        cli = EntityClient.apply(address);
+//    }
+//
+//
+//    public static void main(String[] args) {
+//
+//        if(args.length < 5) {
+//            System.out.println("Error arguments");
+//            return;
+//        }
+//
+//        String address = args[0];
+//        String normal = args[1];
+//        String stop = args[2];
+//        String entity1 = args[3];
+//        String entity2 = args[4];
+//        HttpSpellApp.getInstance().dataInit(address, normal, stop, entity1, entity2);
+//
+//
+//
+//        //testInsert();
+//        //updateType();
+//        //testUpdate();
+//        //testRedirect();
+//        //testCheckWord();
+//    }
 
-    public static void main(String[] args) {
-        //initRemoteNormal("nlp_data/indo_dict/id_full.txt");
-        //initRemoteStop("nlp_data/indo_dict/stop_word.txt");
-        //initRemoteEntity("nlp_data/indo_dict/wiki_tag.txt");
-        //testInsert();
-        //updateType();
-        //testUpdate();
-        //testRedirect();
-        //testCheckWord();
+    public void dataInit(String address, String normal, String stop, String entity1, String entity2) {
+        //HttpSpellApp.getInstance().initClient(address);
+        //HttpSpellApp.getInstance().initRemoteNormal(normal);
+        //HttpSpellApp.getInstance().initRemoteStop(stop);
+        HttpSpellApp.getInstance().initRemoteEntity(entity1);
+        HttpSpellApp.getInstance().initRemoteEntity(entity2);
+    }
+
+    public void sampleInit() {
+        //HttpSpellApp.getInstance().initClient("10.2.15.176:9004");
+        HttpSpellApp.getInstance().initRemoteNormal("data/nlp_data/indo_dict/id_full.txt");
+        HttpSpellApp.getInstance().initRemoteStop("nlp_data/indo_dict/stop_word.txt");
+        HttpSpellApp.getInstance().initRemoteEntity("nlp_data/indo_dict/wiki_tag.txt");
     }
 
     public void testCheckWord() {
@@ -252,6 +288,20 @@ public class HttpSpellApp implements ISpellApp {
     }
 
 
+//    public void insert(String word, String type) {
+//        JEntityRedisBulkInsertRequest content = new JEntityRedisBulkInsertRequest(Arrays.asList(word.toLowerCase()));
+//        Future<JEntityRedisInsertResponse> insertion = cli.jInsertNewEntityType(type, content);
+//
+//        try {
+//            JEntityRedisInsertResponse result = Await.result(insertion);
+//            //System.out.println(result.getEntityType() + " -- " + result.getKeyword());
+//        } catch (Exception e) {
+//            System.out.println("error insert article : " + e + " -- " + word + " -- " + type);
+//        }
+//
+//    }
+
+
     public void initRemoteNormal(String path) {
 
         List<String> lines = TextfileIO.readFile(path);
@@ -262,7 +312,7 @@ public class HttpSpellApp implements ISpellApp {
                 count++;
                 String word = line.split(" ")[0];
                 //indoDict.put(tokens[0], Integer.parseInt(tokens[1]));
-                postToDict(word, type_normal);
+                //insert(word, "normal");
                 if (count % 100 == 0) {
                     long time = System.currentTimeMillis() - start;
                     System.out.println(time + " -- " + count);
@@ -289,8 +339,7 @@ public class HttpSpellApp implements ISpellApp {
             try {
                 count++;
                 String word = line.toLowerCase();
-                int r = postUpdateToDict(word, type_stop);
-                dups += r;
+                //insert(word, "stop");
                 if (count % 100 == 0) {
                     long time = System.currentTimeMillis() - start;
                     System.out.println(time + " -- " + count + " -- " + dups);
@@ -316,16 +365,14 @@ public class HttpSpellApp implements ISpellApp {
 
             for (String w : varied) {
                 count++;
-                if (count > 121400) {
-                    int r = postUpdateToDict(w, type_entity);
-                    dups += r;
-                    if (count % 100 == 0) {
-                        long time = System.currentTimeMillis() - start;
-                        System.out.println(time + " -- " + count + " -- " + dups);
-                        start = System.currentTimeMillis();
-                        //break;
-                    }
+                //insert(word.toLowerCase(), "entity");
+                if (count % 100 == 0) {
+                    long time = System.currentTimeMillis() - start;
+                    System.out.println(time + " -- " + count + " -- " + dups);
+                    start = System.currentTimeMillis();
+
                 }
+
             }
 
         }

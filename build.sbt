@@ -3,7 +3,7 @@ import sbtprotobuf.{ProtobufPlugin=>JPB}
 
 name := "entity-extractor-service"
 organization := "id.co.babe"
-version := "1.2"
+version := "1.3"
 scalaVersion := "2.11.8"
 
 resolvers ++= Seq(
@@ -27,8 +27,8 @@ assemblyMergeStrategy in assembly := {
   case PathList("com", "google", xs @ _*) => MergeStrategy.last
   case PathList("org", "apache", xs @ _*) => MergeStrategy.last
   case PathList("org", "slf4j", xs @ _*) => MergeStrategy.last
-  case PathList("org", "joda", xs @ _*) => MergeStrategy.last
   case PathList("javax", "servlet", xs @ _*) => MergeStrategy.last
+  case PathList("org", "joda", xs @ _*) => MergeStrategy.last
   case other => MergeStrategy.defaultMergeStrategy(other)
 }
 
@@ -118,7 +118,8 @@ libraryDependencies ++= Seq(
   "org.scalaj" %% "scalaj-http" % "2.3.0",
   "org.jsoup" % "jsoup" % "1.7.2",
   "au.com.bytecode" % "opencsv" % "2.4",
-  //"id.co.babe" %% "entity-service-client" % "1.2",
+
+//  "id.co.babe" %% "entity-service-client" % "1.2",
 
   "org.apache.httpcomponents" % "httpclient" % "4.2",
   "org.apache.httpcomponents" % "httpmime" % "4.5.1",

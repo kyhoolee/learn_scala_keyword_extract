@@ -52,18 +52,18 @@ public class TextParser {
 	
 	
 
-	public static void main(String args[]) {
-		try {
-			organization();
-		} catch (InvalidFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+//	public static void main(String args[]) {
+//		try {
+//			organization();
+//		} catch (InvalidFormatException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
 
 	public static void simpleParse() {
 

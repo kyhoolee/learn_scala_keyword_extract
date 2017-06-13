@@ -20,42 +20,42 @@ public class WikiClient {
 	public static final String wiki_redirect = "<http://id.dbpedia.org/resource/";
 	public static final String wiki_end = ">";
 	
-	public static void main(String[] args) throws UnsupportedEncodingException {
-		//sample();
-//		readWikiEntity("/home/mainspring/tutorial/resources/data/DbPedia/id/page_ids_id.nt", 
-//				"nlp_data/wiki_dict/page_wiki_entity.txt", wiki_redirect);
-		//parseRootWiki("nlp_data/wiki_dict/page_links_unredirected_id.nt", "nlp_data/wiki_dict/unredirect_entity.txt");
-//		mergeEntity("nlp_data/wiki_dict/wiki_tag.txt", 
-//				"nlp_data/wiki_dict/wiki_entity.txt",
-//				"nlp_data/indo_dict/tag_dict.txt");
-		//parseRootWiki("nlp_data/wiki_dict/redirects_id.nt", "nlp_data/wiki_dict/redirect_entity_map.txt");
-		//filterEntity("nlp_data/wiki_dict/page_wiki_entity.txt", "nlp_data/wiki_dict/filtered_page_wiki_entity.txt");
-		//filteredEntity("nlp_data/indo_dict/wiki_tag.txt", "nlp_data/indo_dict/filtered_wiki_tag.txt");
-		
-		
+//	public static void main(String[] args) throws UnsupportedEncodingException {
+//		//sample();
+////		readWikiEntity("/home/mainspring/tutorial/resources/data/DbPedia/id/page_ids_id.nt",
+////				"nlp_data/wiki_dict/page_wiki_entity.txt", wiki_redirect);
+//		//parseRootWiki("nlp_data/wiki_dict/page_links_unredirected_id.nt", "nlp_data/wiki_dict/unredirect_entity.txt");
+////		mergeEntity("nlp_data/wiki_dict/wiki_tag.txt",
+////				"nlp_data/wiki_dict/wiki_entity.txt",
+////				"nlp_data/indo_dict/tag_dict.txt");
+//		//parseRootWiki("nlp_data/wiki_dict/redirects_id.nt", "nlp_data/wiki_dict/redirect_entity_map.txt");
+//		//filterEntity("nlp_data/wiki_dict/page_wiki_entity.txt", "nlp_data/wiki_dict/filtered_page_wiki_entity.txt");
+//		//filteredEntity("nlp_data/indo_dict/wiki_tag.txt", "nlp_data/indo_dict/filtered_wiki_tag.txt");
+//
+//
+////		readWikiEntity(
+////				"/home/mainspring/tutorial/resources/data/DbPedia/en/article_categories_en.nt",
+////				"/home/mainspring/tutorial/resources/data/DbPedia/en/wiki_tag_en.nt",
+////				wiki_entity, 100, 100);
+//
+//
+////		readWikiEntity(
+////				"/home/mainspring/tutorial/resources/data/DbPedia/en/article_categories_en.nt",
+////				"/home/mainspring/tutorial/resources/data/DbPedia/en/wiki_tag_en.nt",
+////				wiki_entity, 100, 100);
+//
+////		readWikiEntity(
+////				"/home/mainspring/tutorial/resources/data/DbPedia/en/page_ids_en.nt",
+////				"/home/mainspring/tutorial/resources/data/DbPedia/en/filter/wiki_tag_en.txt",
+////				new WikiFilter(wiki_entity));
+//
 //		readWikiEntity(
-//				"/home/mainspring/tutorial/resources/data/DbPedia/en/article_categories_en.nt", 
-//				"/home/mainspring/tutorial/resources/data/DbPedia/en/wiki_tag_en.nt", 
-//				wiki_entity, 100, 100);
-		
-		
-//		readWikiEntity(
-//				"/home/mainspring/tutorial/resources/data/DbPedia/en/article_categories_en.nt", 
-//				"/home/mainspring/tutorial/resources/data/DbPedia/en/wiki_tag_en.nt", 
-//				wiki_entity, 100, 100);
-		
-//		readWikiEntity(
-//				"/home/mainspring/tutorial/resources/data/DbPedia/en/page_ids_en.nt", 
-//				"/home/mainspring/tutorial/resources/data/DbPedia/en/filter/wiki_tag_en.txt", 
+//				"/home/mainspring/tutorial/resources/data/DbPedia/en/page_ids_en.ttl",
+//				"/home/mainspring/tutorial/resources/data/DbPedia/en/filter/wiki_tag_en.2017.txt",
 //				new WikiFilter(wiki_entity));
-		
-		readWikiEntity(
-				"/home/mainspring/tutorial/resources/data/DbPedia/en/page_ids_en.ttl", 
-				"/home/mainspring/tutorial/resources/data/DbPedia/en/filter/wiki_tag_en.2017.txt", 
-				new WikiFilter(wiki_entity));
-		
-		
-	}
+//
+//
+//	}
 	
 	
 	public static class WikiFilter implements StringFilter {

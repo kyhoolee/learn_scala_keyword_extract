@@ -279,8 +279,8 @@ public class CneRefactor extends CneDetector {
     }
 
 
-    public static void main(String[] args) {
-        System.out.println(checkRomanNumeral("xi"));
-        System.out.println(candidateFilter("XI"));
-    }
+//    public static void main(String[] args) {
+//        System.out.println(checkRomanNumeral("xi"));
+//        System.out.println(candidateFilter("XI"));
+//    }
 }

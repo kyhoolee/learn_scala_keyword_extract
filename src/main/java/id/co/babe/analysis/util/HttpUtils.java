@@ -129,7 +129,7 @@ public class HttpUtils {
 		return result;
 	}
 	
-	public static void main(String[] args) {
-		postRequest("http://10.2.15.89:9000/v1/entity/extract/10669669");
-	}
+//	public static void main(String[] args) {
+//		postRequest("http://10.2.15.89:9000/v1/entity/extract/10669669");
+//	}
 }

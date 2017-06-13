@@ -25,10 +25,10 @@ public class RedisSpellApp implements ISpellApp {
     public static final String entity_set_stop = "entity:set:stop";
     public static final String entity_set_normal = "entity:set:normal";
     public static final String entity_set_entity = "entity:set:entity";
-    public static final String hash_redirect = "hash:redirect";
-    public static final String set_stop = "set:stop";
-    public static final String set_normal = "set:normal";
-    public static final String set_entity = "set:entity";
+    public static final String hash_redirect = "redirect";
+    public static final String set_stop = "stop";
+    public static final String set_normal = "normal";
+    public static final String set_entity = "entity";
 
 
     public void setStop(String word) {

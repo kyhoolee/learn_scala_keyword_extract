@@ -57,9 +57,9 @@ public class DocWordCat {
 	}
 	
 	
-	public static void main(String[] args) {
-		DocWordCat dwc = new DocWordCat(1, 1, "");
-		
-	}
+//	public static void main(String[] args) {
+//		DocWordCat dwc = new DocWordCat(1, 1, "");
+//
+//	}
 
 }

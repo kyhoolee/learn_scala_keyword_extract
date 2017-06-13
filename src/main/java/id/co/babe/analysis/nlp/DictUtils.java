@@ -1,6 +1,7 @@
 package id.co.babe.analysis.nlp;
 
 import id.co.babe.spelling.service.HttpSpellApp;
+import id.co.babe.spelling.service.RedisPool;
 import id.co.babe.spelling.service.RedisSpellApp;
 import id.co.babe.spelling.service.SpellApp;
 
@@ -18,15 +19,33 @@ public class DictUtils {
     public static int storage = storage_redis;
 
 
+    public static void initRedis(String redis_host, int redis_port, int redis_index) {
+        storage = storage_redis;
+        RedisPool.initRedis(redis_host, redis_port, redis_index);
+    }
 
     public static void init() {
-        // DictUtils.initIndo("nlp_data/indo_dict/id_full.txt");
-		DictUtils.initNormal("data/nlp_data/indo_dict/id_full.txt");
-		DictUtils.initStop("data/nlp_data/indo_dict/stop_word.txt");
-		DictUtils.initEntity(
-				"data/nlp_data/indo_dict/wiki_tag.txt",
-				"/home/mainspring/tutorial/resources/data/DbPedia/en/filter/wiki_tag_en.2017.txt");
-		DictUtils.initRedirect("data/nlp_data/indo_dict/redirect_entity_map.txt");
+
+//		DictUtils.initNormal("data/nlp_data/indo_dict/id_full.txt");
+//		DictUtils.initStop("data/nlp_data/indo_dict/stop_word.txt");
+//		DictUtils.initEntity(
+//				"data/nlp_data/indo_dict/wiki_tag.txt",
+//				"/home/mainspring/tutorial/resources/data/DbPedia/en/filter/wiki_tag_en.2017.txt");
+//		DictUtils.initRedirect("data/nlp_data/indo_dict/redirect_entity_map.txt");
+
+        TextParser.init();
+    }
+
+
+    public static void initLocal() {
+
+//		DictUtils.initNormal("data/nlp_data/indo_dict/id_full.txt");
+//		DictUtils.initStop("data/nlp_data/indo_dict/stop_word.txt");
+//		DictUtils.initEntity(
+//				"data/nlp_data/indo_dict/wiki_tag.txt",
+//				"/home/mainspring/tutorial/resources/data/DbPedia/en/filter/wiki_tag_en.2017.txt");
+//		DictUtils.initRedirect("data/nlp_data/indo_dict/redirect_entity_map.txt");
+        initRedis("localhost", 6379, 0);
         TextParser.init();
     }
 

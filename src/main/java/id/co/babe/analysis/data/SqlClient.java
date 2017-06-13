@@ -36,11 +36,11 @@ public class SqlClient {
 	}
 	
 	
-	public static void main(String[] args) {
-		//writeTagEntity();
-		writeWikitagToDB();
-		//deleteEntity();
-	}
+//	public static void main(String[] args) {
+//		//writeTagEntity();
+//		writeWikitagToDB();
+//		//deleteEntity();
+//	}
 	
 	public static void writeWikitagToDB() {
 		List<String> entities = TextfileIO.readFile("nlp_data/indo_dict/wiki_tag.txt");

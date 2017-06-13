@@ -24,7 +24,7 @@ class EntityControllerV3 @Inject()(service: EntityExtractorApiV3) extends BaseCo
   override protected implicit val swagger: Swagger = EntitySwagger
 
 
-  post("/%s/entity/extract".format(apiVersion)) {request: EntityMessageRequest =>
+  post(s"/$apiVersion/entity/extract") {request: EntityMessageRequest =>
     validate(request) match {
       case Success => {
         service.extractEntity(request.body)
@@ -40,7 +40,7 @@ class EntityControllerV3 @Inject()(service: EntityExtractorApiV3) extends BaseCo
 
   }
 
-  post("/%s/entity/extract/:aid".format(apiVersion)) { request: Request =>
+  post(s"/$apiVersion/entity/extract/:aid") { request: Request =>
     guardAid(request)(aid => service.extractEntityById(aid))
   }
 
@@ -57,16 +57,16 @@ class EntityControllerV3 @Inject()(service: EntityExtractorApiV3) extends BaseCo
     ent => ent.body is notEmpty
   }
 
-  implicit val dictInsertValidator = validator[DictInsertRequest] {
+  /*implicit val dictInsertValidator = validator[DictInsertRequest] {
     ent => ent.word is notEmpty
   }
 
   implicit val redirectInsertValidator = validator[RedirectInsertRequest] {
     ent => ent.word is notEmpty
-  }
+  }*/
 
 
-  post("/%s/entity/delete/redirect".format(apiVersion)){ req : RedirectInsertRequest =>
+  /*post("/%s/entity/delete/redirect".format(apiVersion)){ req : RedirectInsertRequest =>
     validate(req) match {
       case Success => deleteRedirect(req)
       case Failure(violations) => handleValidationError(violations)
@@ -144,7 +144,7 @@ class EntityControllerV3 @Inject()(service: EntityExtractorApiV3) extends BaseCo
       case _ => DictInsertResponse("error type")
 
     }
-  }
+  }*/
 
 
 

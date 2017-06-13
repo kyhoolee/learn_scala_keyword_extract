@@ -39,6 +39,40 @@ public class RedisPool {
 		
 	}
 
+	public static void initRedis(String host, int port, int index) {
+		redis_host = host;
+		redis_port = port;
+		redis_index = index;
+		getJedis();
+	}
+
+
+	public synchronized static JedisPool getInstance() {
+
+		if (_instance == null) {
+			System.out.println(redis_host + " " + redis_port + " " + redis_index);
+
+			//load(path);
+			JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+			jedisPoolConfig.setMaxTotal(100);
+			jedisPoolConfig.setMaxIdle(100);
+			jedisPoolConfig.setMaxWaitMillis(10000);
+			jedisPoolConfig.setMinIdle(10);
+			jedisPoolConfig.setTimeBetweenEvictionRunsMillis(5000);
+			jedisPoolConfig.setMinEvictableIdleTimeMillis(1000);
+			jedisPoolConfig.setTestWhileIdle(true);
+			System.out.println(redis_pass);
+			System.out.println(redis_host);
+			System.out.println(redis_port);
+			_instance = new JedisPool(
+					jedisPoolConfig,
+					redis_host, redis_port,
+					10000, redis_pass);
+
+		}
+
+		return _instance;
+	}
 
 
 	public synchronized static JedisPool getInstance(String path) {
@@ -80,7 +114,10 @@ public class RedisPool {
 	
 	public synchronized static Jedis getJedis() {
 		try {
-			Jedis jedis = RedisPool.getInstance(CONFIG_PATH).getResource();
+			Jedis jedis = RedisPool
+					.getInstance()
+					//.getInstance(CONFIG_PATH)
+					.getResource();
 			jedis.select(redis_index);
 			return jedis;
 		} catch (Exception e) {
@@ -89,9 +126,11 @@ public class RedisPool {
 		
 		return null;
 	}
-	public static void main(String[] args) {
-		Jedis jedis = RedisPool.getJedis();
-	}
+
+
+//	public static void main(String[] args) {
+//		Jedis jedis = RedisPool.getJedis();
+//	}
 
 
 }

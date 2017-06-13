@@ -14,6 +14,10 @@ public class Entity {
 	public int occFreq;
 	public double score;
 	public int entityType;
+
+	public Entity() {
+
+	}
 	
 	public Entity(String name, int occFreq, double score, int entityType) {
 		this.name = name;
