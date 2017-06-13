@@ -19,9 +19,18 @@ object EntityExtractorV2Module extends TwitterModule  with Logging {
     val sentParser = config.getString("extractor.sentparser")
     val tokenParser = config.getString("extractor.tokenparser")
 
-    var tag = Array[String](tagWord, tagWord2)
+    val tags = Seq(tagWord, tagWord2)
 
-    CneAPI.initDict(idWord, stopWord, tag,
+    info(s"idWord: ${idWord}")
+    info(s"stopWord: ${stopWord}")
+    info(s"tagWord: ${tagWord}")
+    info(s"tagWord2: ${tagWord2}")
+    info(s"redirectWord: ${idWord}")
+    info(s"sentParser: ${sentParser}")
+    info(s"tokenParser: ${tokenParser}")
+    info(s"tags: ${tags}")
+
+    CneAPI.initDict(idWord, stopWord, tags.toArray,
       redirectWord, sentParser, tokenParser);
 
   }
