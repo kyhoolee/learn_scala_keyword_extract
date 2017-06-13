@@ -42,6 +42,7 @@ lazy val versions = new {
   val logback = "1.1.+"
   val protobuf = "3.0.0"
   val jwtscala = "0.8.1"
+  val finagleRedis = "6.39.0"
 
   val scalapb = "0.5.42"
 
@@ -84,6 +85,7 @@ libraryDependencies ++= Seq(
   "com.twitter" % "inject-app_2.11" % versions.finatra % Test classifier "tests",
   "com.twitter" % "inject-core_2.11" % versions.finatra % Test classifier "tests",
   "com.twitter" % "inject-modules_2.11" % versions.finatra % Test classifier "tests",
+  "com.twitter" %% "finagle-redis" % versions.finagleRedis,
 
   "org.mockito" % "mockito-core" % versions.mockito % Test,
   "org.scalatest" % "scalatest_2.11" % versions.scalatest % Test,
