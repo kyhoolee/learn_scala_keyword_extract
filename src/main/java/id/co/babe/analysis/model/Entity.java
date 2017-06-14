@@ -33,4 +33,8 @@ public class Entity {
 		this.entityType = entityType;
 	}
 
+	public String toString() {
+		return name + " -- " + occFreq + " -- " + score + " -- " + entityType;
+	}
+
 }

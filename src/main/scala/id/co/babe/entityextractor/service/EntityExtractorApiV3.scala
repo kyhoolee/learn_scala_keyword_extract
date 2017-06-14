@@ -8,6 +8,7 @@ import id.co.babe.analysis.CneAPI
 import id.co.babe.analysis.data.SolrClient
 import id.co.babe.analysis.nlp.{CneRefactor, DictUtils}
 import id.co.babe.entityextractor.analysis.nlp.CneScala
+//import id.co.babe.entityextractor.analysis.nlp.CneScala
 import id.co.babe.entityextractor.domain.message.EntityMessage.EntityMessageResponseV2
 import id.co.babe.entityextractor.domain.message.EntityMessage.EntityMessageResponseV2.EntityV2
 import id.co.babe.entityextractor.repository.ArticleRepository
@@ -36,24 +37,43 @@ class EntityExtractorApiV3 @Inject()(articleRepository: ArticleRepository) exten
     }
   }
 
+//  private def getMatchUnmatchEntity(content: String): Future[EntityMessageResponseV2] = {
+//    assert(content != null)
+//    for {
+//      entityMap <- CneScala.genGroupCan(content)
+//    } yield {
+//      val matches = entityMap.getOrElse("matched", Seq()).map { e =>
+//        EntityV2(e.name, e.occFreq, e.score, Option(e.entityType))
+//      }
+//      val unmatches = entityMap.getOrElse("unmatched", Seq()).map { e =>
+//        EntityV2(e.name, e.occFreq, e.score, Option(e.entityType))
+//      }
+//
+//      EntityMessageResponseV2().update(
+//        _.matches := matches.sortWith(_.score > _.score),
+//        _.unmatches := unmatches.sortWith(_.occFreq > _.occFreq)
+//      )
+//    }
+//  }
 
-  private def getMatchUnmatchEntity(content:String): Future[EntityMessageResponseV2] = {
+  private def getMatchUnmatchEntity(content:String): Future[EntityMessageResponseV2] = Future {
     assert(content != null)
-    for {
-      entityMap <- CneScala.genGroupCan(content)
-    } yield {
-      val matches = entityMap.getOrElse("matched", Seq()).map{e =>
-        EntityV2(e.name, e.occFreq, e.score, Option(e.entityType))
-      }
-      val unmatches = entityMap.getOrElse("unmatched", Seq()).map{e =>
-        EntityV2(e.name, e.occFreq, e.score, Option(e.entityType))
-      }
 
-      EntityMessageResponseV2().update(
-        _.matches := matches.sortWith(_.score > _.score),
-        _.unmatches := unmatches.sortWith(_.occFreq > _.occFreq)
-      )
-    }
+    val entityMap = CneAPI.extractAllEntity(content)
+
+    val matches = for {
+      e <- entityMap.get("matched").asScala
+    } yield EntityV2(e.name, e.occFreq, e.score, Option(e.entityType))
+
+    val unmatches = for {
+      e <- entityMap.get("unmatched").asScala
+    } yield EntityV2(e.name, e.occFreq, e.score, Option(e.entityType))
+
+
+    EntityMessageResponseV2().update(
+      _.matches := matches.sortWith(_.score > _.score),
+      _.unmatches := unmatches.sortWith(_.occFreq > _.occFreq)
+    )
   }
 
 

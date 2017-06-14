@@ -83,7 +83,7 @@ public class CneRefactor extends CneDetector {
                     }
                     c = FilterUtils.removeLastPunctuation(c);
                     if (candidateFilter(c)) {
-                        System.out.println(c);
+                        //System.out.println(c);
                         result.add(c);
                     }
                 }
@@ -96,15 +96,12 @@ public class CneRefactor extends CneDetector {
 
     public static Set<String> filterShort(Map<String, Integer> candidate) {
         Set<String> r = new HashSet<String>();
-
         Set<String> filtered = new HashSet<String>();
-
         // check in one bulk
         String[] cans = candidate.keySet().toArray(new String[0]);
         boolean[] checkEntities = DictUtils.checkEntity(cans);
 
         for (int i = 0 ; i < cans.length ; i ++) {
-
             String c = cans[i];
             if (checkEntities[i] && !DictUtils.checkStop(c) && (c.length() > 2 || candidate.get(c) > 1) ) {
                 filtered.add(c);
@@ -119,7 +116,6 @@ public class CneRefactor extends CneDetector {
                     break;
                 }
             }
-
             if (check) {
                 r.add(c);
             }
