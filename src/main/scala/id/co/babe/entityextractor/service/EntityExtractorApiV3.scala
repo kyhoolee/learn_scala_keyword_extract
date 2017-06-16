@@ -22,7 +22,7 @@ class EntityExtractorApiV3 @Inject()(articleRepository: ArticleRepository) exten
 
   def extractEntity(content: String) = {
     assert(content != null)
-    getMatchUnmatchEntity(content)
+    getMatchUnmatchEntityScala(content)
   }
 
   def extractEntityById(articleId: Long): Future[Any] = {
@@ -30,6 +30,9 @@ class EntityExtractorApiV3 @Inject()(articleRepository: ArticleRepository) exten
       art => if(art.isDefined) {
         val arr = new BASE64Decoder().decodeBuffer(art.get.body)
         val decoded: String = new String(arr, "UTF-8")
+//        println("\n\n---------FilterEntity----------")
+//        println(decoded)
+//        println("----------FilterEntity---------\n\n")
         extractEntity(SolrClient.htmlText(decoded))
       } else {
         throw NotFoundException(s"Article ID #$articleId not found!")
@@ -37,24 +40,24 @@ class EntityExtractorApiV3 @Inject()(articleRepository: ArticleRepository) exten
     }
   }
 
-//  private def getMatchUnmatchEntity(content: String): Future[EntityMessageResponseV2] = {
-//    assert(content != null)
-//    for {
-//      entityMap <- CneScala.genGroupCan(content)
-//    } yield {
-//      val matches = entityMap.getOrElse("matched", Seq()).map { e =>
-//        EntityV2(e.name, e.occFreq, e.score, Option(e.entityType))
-//      }
-//      val unmatches = entityMap.getOrElse("unmatched", Seq()).map { e =>
-//        EntityV2(e.name, e.occFreq, e.score, Option(e.entityType))
-//      }
-//
-//      EntityMessageResponseV2().update(
-//        _.matches := matches.sortWith(_.score > _.score),
-//        _.unmatches := unmatches.sortWith(_.occFreq > _.occFreq)
-//      )
-//    }
-//  }
+  private def getMatchUnmatchEntityScala(content: String): Future[EntityMessageResponseV2] = {
+    assert(content != null)
+    for {
+      entityMap <- CneScala.genGroupCan(content)
+    } yield {
+      val matches = entityMap.getOrElse("matched", Seq()).map { e =>
+        EntityV2(e.name, e.occFreq, e.score, Option(e.entityType))
+      }
+      val unmatches = entityMap.getOrElse("unmatched", Seq()).map { e =>
+        EntityV2(e.name, e.occFreq, e.score, Option(e.entityType))
+      }
+
+      EntityMessageResponseV2().update(
+        _.matches := matches.sortWith(_.score > _.score),
+        _.unmatches := unmatches.sortWith(_.occFreq > _.occFreq)
+      )
+    }
+  }
 
   private def getMatchUnmatchEntity(content:String): Future[EntityMessageResponseV2] = Future {
     assert(content != null)

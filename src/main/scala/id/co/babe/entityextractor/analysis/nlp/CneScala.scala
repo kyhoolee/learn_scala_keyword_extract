@@ -62,8 +62,6 @@ class CneScala {
 				} else {
 					None
 				}
-
-
 			}
 
 		}.filter(f => f.isDefined).map(_.get).distinct
@@ -94,10 +92,15 @@ class CneScala {
 
 	def processCombination(ws: Seq[String], text: String) = Future {
 		val filterText = textReplace(text)
+		println("\n\n---------FilterEntity----------")
 		val combination = ws.flatten{w =>
 			import scala.collection.JavaConversions._
 			CneRefactor.genComb(w).toIndexedSeq
 		}
+
+
+		println(combination)
+		println("----------FilterEntity---------\n\n")
 
 		combination.map{c => (c, countComb(c,filterText))}
 	}
@@ -126,9 +129,6 @@ class CneScala {
 			.map{c => (c._1, c._2, DictUtils.checkEntity(c._1))}
 		    .filter(f => f._3 && (f._1.length > 2 || f._2 > 1))
 
-		println("\n\n---------Entity----------")
-		cans.map(c => println(c))
-		println("----------Entity---------\n\n")
 
 		val filtered = cans.map{c =>
 			val l = cans.filter(f => f._1.toLowerCase.contains(c._1.toLowerCase) && f._1.length > c._1.length)
@@ -137,10 +137,6 @@ class CneScala {
 			else None
 		}
 
-
-		println("\n\n---------FilterEntity----------")
-		filtered.map(c => println(c))
-		println("----------FilterEntity---------\n\n")
 
 		filtered.filter(_.isDefined).map(_.get).distinct
 	}
@@ -186,8 +182,9 @@ class CneScala {
 			(g._1, sum)
 		}
 
+
 		val rootCandidate = grouped.map{g =>
-			val opt = g._2.map(_._1).sortBy(s => s.length).headOption
+			val opt = g._2.map(_._1).sortBy(s => -s.length).headOption
 			(g._1, opt.getOrElse(""))
 		}
 
@@ -195,20 +192,23 @@ class CneScala {
 	}
 
 	def buildResult(matched: Seq[(String, Double)], combCan: Seq[(String, Int)], groupMap: Seq[(String, Double)]) = {
-		println("\n---------matched input----------\n")
-		matched.map(e => println(e.toString))
-		println("\n---------matched input----------\n")
+
 		val sortedMatched = matched.sortBy(_._2)
 		val sortedCombination = combCan.sortBy(_._2)
 
 		val matchedEntity = getMatchedEntity(sortedMatched, sortedCombination)
 		val unmatchedEntity = getUnmatchedEntity(sortedCombination, groupMap.map(_._1))
 
-		val unmatchedEntityFiltered = unmatchedEntity.diff(matchedEntity)
+		//val unmatchedEntityFiltered = unmatchedEntity.diff(matchedEntity)
 
-		println("\n---------matched----------\n")
-		matchedEntity.map(e => println(e.toString))
-		println("\n---------matched----------\n")
+		val unmatchedEntityFiltered = unmatchedEntity.filter { e =>
+			val contain = groupMap.filter(matched => matched._1.contains(e.name))
+			if(contain.size > 0)
+				false
+			else
+				true
+		}.groupBy(_.name).map(_._2.head).toSeq
+
 
 		Map(("matched", matchedEntity), ("unmatched", unmatchedEntityFiltered))
 	}

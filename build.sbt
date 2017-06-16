@@ -3,14 +3,24 @@ import sbtprotobuf.{ProtobufPlugin=>JPB}
 
 name := "entity-extractor-service"
 organization := "id.co.babe"
-version := "1.3"
+version := "1.4"
 scalaVersion := "2.11.8"
 
-resolvers ++= Seq(
+/*resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
   "Twitter Maven" at "https://maven.twttr.com",
   Resolver.jcenterRepo,
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/releases/",
+  Resolver.mavenLocal
+)*/
+
+resolvers ++= Seq(
+  Resolver.sonatypeRepo("releases"),
+  Resolver.jcenterRepo,
+  "Twitter maven" at "http://maven.twttr.com/",
+  "Finatra Repo" at "http://twitter.github.com/finatra",
+  "jitpack" at "https://jitpack.io",
+  "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases/",//"https://oss.sonatype.org/service/local/staging/deploy/maven2",
   Resolver.mavenLocal
 )
 
@@ -28,7 +38,7 @@ assemblyMergeStrategy in assembly := {
   case PathList("org", "apache", xs @ _*) => MergeStrategy.last
   case PathList("org", "slf4j", xs @ _*) => MergeStrategy.last
   case PathList("org", "joda", xs @ _*) => MergeStrategy.last
-  case PathList("com", "twitter", xs @ _*) => MergeStrategy.last
+//  case PathList("com", "twitter", xs @ _*) => MergeStrategy.first
   case PathList("javax", "servlet", xs @ _*) => MergeStrategy.last
   case other => MergeStrategy.defaultMergeStrategy(other)
 }
@@ -39,7 +49,7 @@ assemblyJarName in assembly := s"${name.value}-${version.value}.jar"
 test in assembly := {}
 
 lazy val versions = new {
-  val finatra = "2.5.0"
+  val finatra = "2.4.0"
   val guice = "4.0"
   val logback = "1.1.+"
   val protobuf = "3.0.0"
@@ -115,7 +125,6 @@ libraryDependencies ++= Seq(
   "com.github.rlazoti" %% "finagle-metrics" % versions.finagle_metrics,
   "io.dropwizard.metrics" % "metrics-graphite" % versions.metrics,
 
-  //"co.id.babe.analysis" % "article_filter" % "0.0.2-SNAPSHOT"
   "redis.clients" % "jedis" % "2.7.0",
   "mysql" % "mysql-connector-java" % "5.1.22",
   "com.github.tototoshi" %% "scala-csv" % "1.3.4",
@@ -123,7 +132,7 @@ libraryDependencies ++= Seq(
   "org.jsoup" % "jsoup" % "1.7.2",
   "au.com.bytecode" % "opencsv" % "2.4",
 
-  //"id.co.babe" %% "entity-service-client" % "1.2",
+  "id.co.babe" %% "entity-service-client" % "1.3",
 
   "org.apache.httpcomponents" % "httpclient" % "4.2",
   "org.apache.httpcomponents" % "httpmime" % "4.5.1",

@@ -67,7 +67,10 @@ public class CneRefactor extends CneDetector {
 
     public static Set<String> genComb(String word) {
         Set<String> result = new HashSet<String>();
-        result.add(word);
+
+        String modified_w = FilterUtils.removeFirstPunctuation(word);
+        modified_w = FilterUtils.removeLastPunctuation(modified_w);
+        result.add(modified_w);
 
         String[] tokens = word.split("\\s+");
         for (int i = 1; i < tokens.length; i++) {
@@ -82,6 +85,7 @@ public class CneRefactor extends CneDetector {
                         }
                     }
                     c = FilterUtils.removeLastPunctuation(c);
+                    c = FilterUtils.removeFirstPunctuation(c);
                     if (candidateFilter(c)) {
                         //System.out.println(c);
                         result.add(c);
@@ -99,11 +103,11 @@ public class CneRefactor extends CneDetector {
         Set<String> filtered = new HashSet<String>();
         // check in one bulk
         String[] cans = candidate.keySet().toArray(new String[0]);
-        boolean[] checkEntities = DictUtils.checkEntity(cans);
+        //boolean[] checkEntities = DictUtils.checkEntity(cans);
 
         for (int i = 0 ; i < cans.length ; i ++) {
             String c = cans[i];
-            if (checkEntities[i] && !DictUtils.checkStop(c) && (c.length() > 2 || candidate.get(c) > 1) ) {
+            if (DictUtils.checkEntity(c) && !DictUtils.checkStop(c) && (c.length() > 2 || candidate.get(c) > 1) ) {
                 filtered.add(c);
             }
         }
@@ -264,7 +268,7 @@ public class CneRefactor extends CneDetector {
         String phrase = w.toLowerCase();
         phrase = removePunctuation(phrase);
         boolean result =
-                phrase.length() > 1 && !DictUtils.checkStop(phrase)
+                phrase.length() > 1 && !DictUtils.checkStop(phrase.trim())
                         && !checkCommonPhrase(phrase)
                         && !checkDatePhrase(phrase)
                         && !checkMoneyPhrase(phrase)

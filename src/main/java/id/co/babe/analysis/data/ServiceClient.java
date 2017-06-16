@@ -119,42 +119,46 @@ public class ServiceClient extends SolrClient {
     public static void compareServiceCandidate(int catId, int size) {
         List<String> result = new ArrayList<String>();
 
-        List<Article> as = getBabeArticleByCat(catId, 0, size);
+        List<Article> as = SqlClient.getArticleByCategory(catId, 0, size);
+                //getBabeArticleByCat(catId, 0, size);
 
 
         String sign = "-*-";
         for(Article a : as) {
-            String content = htmlText(a.content);
+            try {
+                String content = htmlText(a.content);
 
-            result.add(sign + a.content);
-            result.add("\n");
-            result.add(sign + a.articleId + "");
-            result.add(sign + a.url+ "\n\n--------------------\n\n");
+                result.add(sign + a.content);
+                result.add("\n");
+                result.add(sign + a.articleId + "");
+                result.add(sign + a.url + "\n\n--------------------\n\n");
 
 
-            long start = System.currentTimeMillis();
-            List<List<String>> candidate = getEntityResult(a.articleId, 1);
-            long value = System.currentTimeMillis() - start;
-            System.out.println("service-v1 id: " + a.articleId + " -- time: " + (value * 0.001) + "\n\n");
-            result.addAll(candidate.get(0));
-            result.add(sign + " -- time: " + (value * 0.001) + "\n\n--------------------\n\n");
-            System.out.println("Time: " + (value * 0.001));
-            result.addAll(candidate.get(1));
-            result.add(sign + " -- time: " + (value * 0.001) + "\n\n--------------------\n\n");
+                long start = System.currentTimeMillis();
+                List<List<String>> candidate = getEntityResult(a.articleId, 1);
+                long value = System.currentTimeMillis() - start;
+                System.out.println("service-v1 id: " + a.articleId + " -- time: " + (value * 0.001) + "\n\n");
+                result.addAll(candidate.get(0));
+                result.add(sign + " -- time: " + (value * 0.001) + "\n\n--------------------\n\n");
+                System.out.println("Time: " + (value * 0.001));
+                result.addAll(candidate.get(1));
+                result.add(sign + " -- time: " + (value * 0.001) + "\n\n--------------------\n\n");
 
-            start = System.currentTimeMillis();
-            candidate = getEntityResult(a.articleId, 3);
-            value = System.currentTimeMillis() - start;
-            System.out.println("service-v3 id: " + a.articleId + " -- time: " + (value * 0.001) + "\n\n");
-            result.addAll(candidate.get(0));
-            result.add(sign + " -- time: " + (value * 0.001) + "\n\n--------------------\n\n");
-            System.out.println("Time: " + (value * 0.001));
-            result.addAll(candidate.get(1));
-            result.add(sign + " -- time: " + (value * 0.001) + "\n\n--------------------\n\n");
-
+                start = System.currentTimeMillis();
+                candidate = getEntityResult(a.articleId, 3);
+                value = System.currentTimeMillis() - start;
+                System.out.println("service-v3 id: " + a.articleId + " -- time: " + (value * 0.001) + "\n\n");
+                result.addAll(candidate.get(0));
+                result.add(sign + " -- time: " + (value * 0.001) + "\n\n--------------------\n\n");
+                System.out.println("Time: " + (value * 0.001));
+                result.addAll(candidate.get(1));
+                result.add(sign + " -- time: " + (value * 0.001) + "\n\n--------------------\n\n");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
-        TextfileIO.writeFile("data/sample_result/check_result/entity_sample." + catId + ".13.6.txt", result);
+        TextfileIO.writeFile("data/sample_result/check_result.14.6/entity_sample." + catId + ".14.6.txt", result);
 
     }
 
@@ -165,13 +169,13 @@ public class ServiceClient extends SolrClient {
         for(Category c : cats) {
             count ++;
             System.out.println(count + " :: " + c.catId + " " + c.catName);
-            compareServiceCandidate(c.catId, 10);
-            //break;
+            compareServiceCandidate(c.catId, 20);
+
         }
     }
 
 
-    public static void test(String[] args) {
+    public static void main_test(String[] args) {
         compareServiceCategoryCandidate();
     }
 }

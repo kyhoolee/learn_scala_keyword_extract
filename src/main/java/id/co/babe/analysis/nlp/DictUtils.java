@@ -1,9 +1,6 @@
 package id.co.babe.analysis.nlp;
 
-import id.co.babe.spelling.service.HttpSpellApp;
-import id.co.babe.spelling.service.RedisPool;
-import id.co.babe.spelling.service.RedisSpellApp;
-import id.co.babe.spelling.service.SpellApp;
+import id.co.babe.spelling.service.*;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +19,11 @@ public class DictUtils {
     public static void initRedis(String redis_host, int redis_port, int redis_index) {
         storage = storage_redis;
         RedisPool.initRedis(redis_host, redis_port, redis_index);
+    }
+
+    public static void initService(String service_url) {
+        storage = storage_service;
+        ServiceSpellApp.getInstance().initClient(service_url);
     }
 
     public static void init() {
@@ -159,7 +161,7 @@ public class DictUtils {
             case storage_java:
                 return SpellApp.getInstance().checkNormal(word.toLowerCase());
             case storage_service:
-                return HttpSpellApp.getInstance().checkNormal(word.toLowerCase());
+                return ServiceSpellApp.getInstance().checkNormal(word.toLowerCase());
             default:
                 return RedisSpellApp.getInstance().checkNormal(word.toLowerCase());
         }
@@ -172,7 +174,7 @@ public class DictUtils {
             case storage_java:
                 return SpellApp.getInstance().checkStop(word.toLowerCase());
             case storage_service:
-                return HttpSpellApp.getInstance().checkStop(word.toLowerCase());
+                return ServiceSpellApp.getInstance().checkStop(word.toLowerCase());
             default:
                 return RedisSpellApp.getInstance().checkStop(word.toLowerCase());
         }
@@ -185,23 +187,23 @@ public class DictUtils {
             case storage_java:
                 return SpellApp.getInstance().checkEntity(word.toLowerCase());
             case storage_service:
-                return HttpSpellApp.getInstance().checkEntity(word.toLowerCase());
+                return ServiceSpellApp.getInstance().checkEntity(word.toLowerCase());
             default:
                 return RedisSpellApp.getInstance().checkEntity(word.toLowerCase());
         }
     }
-    public static boolean[] checkEntity(String... word) {
-        switch(storage) {
-            case storage_redis:
-                return RedisSpellApp.getInstance().checkEntity(word);
-            case storage_java:
-                return SpellApp.getInstance().checkEntity(word);
-            case storage_service:
-                return HttpSpellApp.getInstance().checkEntity(word);
-            default:
-                return RedisSpellApp.getInstance().checkEntity(word);
-        }
-    }
+//    public static boolean[] checkEntity(String... word) {
+//        switch(storage) {
+//            case storage_redis:
+//                return RedisSpellApp.getInstance().checkEntity(word);
+//            case storage_java:
+//                return SpellApp.getInstance().checkEntity(word);
+//            case storage_service:
+//                return HttpSpellApp.getInstance().checkEntity(word);
+//            default:
+//                return RedisSpellApp.getInstance().checkEntity(word);
+//        }
+//    }
 
     public static String checkRedirect(String word) {
         switch(storage) {
@@ -210,7 +212,7 @@ public class DictUtils {
             case storage_java:
                 return SpellApp.getInstance().getInstance().checkRedirect(word.toLowerCase()).toLowerCase();
             case storage_service:
-                return HttpSpellApp.getInstance().checkRedirect(word.toLowerCase()).toLowerCase();
+                return ServiceSpellApp.getInstance().checkRedirect(word.toLowerCase()).toLowerCase();
             default:
                 return RedisSpellApp.getInstance().checkRedirect(word.toLowerCase()).toLowerCase();
         }

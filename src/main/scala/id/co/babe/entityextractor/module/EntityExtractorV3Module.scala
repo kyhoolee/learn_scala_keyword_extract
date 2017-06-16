@@ -16,11 +16,17 @@ object EntityExtractorV3Module extends TwitterModule  with Logging {
     val redis_host = config.getString("extractor.redis_host")
     val redis_port = config.getInt("extractor.redis_port")
     val redis_index = config.getInt("extractor.redis_index")
+    val service_url = config.getString("extractor.service_url")
+    val dict_type = config.getString("extractor.dict_type")
 
     val sentParser = config.getString("extractor.sentparser")
     val tokenParser = config.getString("extractor.tokenparser")
 
-    DictUtils.initRedis(redis_host, redis_port, redis_index)
+    if(dict_type.equalsIgnoreCase("service")) {
+      DictUtils.initService(service_url)
+    } else {
+      DictUtils.initRedis(redis_host, redis_port, redis_index)
+    }
     CneAPI.initDict(sentParser, tokenParser);
 
   }

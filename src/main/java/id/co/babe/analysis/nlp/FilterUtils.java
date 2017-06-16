@@ -11,7 +11,9 @@ public class FilterUtils {
         String result = text.replace("/", " , ").replace(",", " , ")
                 .replace("\"", "  ").replace("(", " , ").replace(")", " , ")
                 .replace("\"", " , ").replace("“", " , ").replace("”", " , ")
-                .replace("”", " , ").replace("‘", " , ").replace("’", " , ").replace("' ", " , ").replace(" '", " , ");
+                .replace("”", " , ").replace("‘", " , ").replace("’", " , ")
+                .replace("' ", " , ").replace(" '", " , ")
+                .replace("[", " [ ").replace("]", " ] ");
 
         result = removeLastPunctuation(result);
 
@@ -29,5 +31,23 @@ public class FilterUtils {
         }
 
         return result;
+    }
+
+    public static String removeFirstPunctuation(String sent) {
+        if(!FilterUtils.startWithCharacter(sent)) {
+            String d = sent.substring(1);
+            return d;
+        }
+        return sent;
+    }
+
+    public static boolean startWithCharacter(String word) {
+        if(word != null && word.length() > 1) {
+            Character c = word.charAt(0);
+            if(Character.isDigit(c) || Character.isLetter(c)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

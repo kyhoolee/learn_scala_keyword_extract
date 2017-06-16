@@ -1,5 +1,6 @@
 package id.co.babe.analysis.data;
 
+import id.co.babe.analysis.model.Article;
 import id.co.babe.analysis.model.Category;
 import id.co.babe.analysis.util.TextfileIO;
 
@@ -344,6 +345,77 @@ public class SqlClient {
 			}
 		}
 		
+		return result;
+	}
+
+
+	public static List<Article> convertArticle(ResultSet rs) {
+		List<Article> result = new ArrayList<Article>();
+
+		try {
+			while(rs.next()) {
+				try {
+					Article e = new Article();
+					e.articleId = rs.getLong("id");
+					e.content = rs.getString("content");
+					e.url = rs.getString("url");
+
+					System.out.println(e.articleId);
+					System.out.println(e.content);
+					System.out.println(e.url);
+
+					result.add(e);
+
+				} catch (Exception e) {
+					System.out.println(e);
+					e.printStackTrace();
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+
+		return result;
+	}
+
+	public static List<Article> getArticleByCategory(int category, int offset, int numb) {
+		List<Article> result = new ArrayList<Article>();
+		Connection conn = null;
+		Statement stmt = null;
+		try {
+			conn = getBabeConnection();
+			stmt = conn.createStatement();
+			String sql = "select *, from_base64(body) as content from sasha_article "
+					+ " where eff_cat_id = " + category
+					+ " and type = 0 "
+					+ " order by id desc limit " + offset + "," + numb + ";";
+			ResultSet rs = stmt.executeQuery(sql);
+
+			result = convertArticle(rs);
+			rs.close();
+			stmt.close();
+			conn.close();
+
+			return result;
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+			}
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
+
 		return result;
 	}
 }
